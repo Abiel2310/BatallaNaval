@@ -169,15 +169,18 @@ namespace BatallaNaval.Controladores
                 if (tryDir == dirOmitir)
                     continue;
 
-                if (estaRotando)
+
+                
+
+                var buscarPosicion = lista[nextIndex];
+                var result = buscarPosicion(celda, cantidadCeldas, dirOmitir);
+
+                if (estaRotando && result.Item2 != null)
                 {
                     // rotar imagen
                     barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     barcoImg.Refresh();
                 }
-
-                var buscarPosicion = lista[nextIndex];
-                var result = buscarPosicion(celda, cantidadCeldas, dirOmitir);
 
                 if (result.Item2 != null)
                 {
@@ -185,9 +188,9 @@ namespace BatallaNaval.Controladores
                     direccion = result.Item2;
                     celdasAOcupar = result.Item1;
                     panel = result.Item3;
+
                     break;
                 }
-
 
             }
 
