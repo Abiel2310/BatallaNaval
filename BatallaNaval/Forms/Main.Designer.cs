@@ -30,10 +30,11 @@
         {
             panelInicio = new Panel();
             panelJuego = new Panel();
+            panel1 = new Panel();
+            instruccionesLabel = new Label();
             panelSeleccion = new Panel();
             btnRotar = new Button();
             textoInstruccion = new Label();
-            instruccionesLabel = new Label();
             scMain = new SplitContainer();
             gridJuego = new TableLayoutPanel();
             barcoChiquitito = new PictureBox();
@@ -45,6 +46,7 @@
             label1 = new Label();
             panelInicio.SuspendLayout();
             panelJuego.SuspendLayout();
+            panel1.SuspendLayout();
             panelSeleccion.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)scMain).BeginInit();
             scMain.Panel1.SuspendLayout();
@@ -71,8 +73,7 @@
             // panelJuego
             // 
             panelJuego.BackgroundImage = Properties.Resources.background;
-            panelJuego.Controls.Add(panelSeleccion);
-            panelJuego.Controls.Add(instruccionesLabel);
+            panelJuego.Controls.Add(panel1);
             panelJuego.Controls.Add(scMain);
             panelJuego.Dock = DockStyle.Fill;
             panelJuego.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -81,15 +82,38 @@
             panelJuego.Size = new Size(1079, 609);
             panelJuego.TabIndex = 0;
             // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.None;
+            panel1.BackColor = SystemColors.GradientActiveCaption;
+            panel1.Controls.Add(instruccionesLabel);
+            panel1.Controls.Add(panelSeleccion);
+            panel1.Location = new Point(65, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(948, 37);
+            panel1.TabIndex = 6;
+            // 
+            // instruccionesLabel
+            // 
+            instruccionesLabel.Anchor = AnchorStyles.None;
+            instruccionesLabel.AutoSize = true;
+            instruccionesLabel.BackColor = SystemColors.GradientActiveCaption;
+            instruccionesLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            instruccionesLabel.Location = new Point(16, 11);
+            instruccionesLabel.Name = "instruccionesLabel";
+            instruccionesLabel.Size = new Size(294, 20);
+            instruccionesLabel.TabIndex = 4;
+            instruccionesLabel.Text = "Haga click en un barco para seleccionarlo";
+            // 
             // panelSeleccion
             // 
             panelSeleccion.Anchor = AnchorStyles.None;
             panelSeleccion.BackColor = Color.Transparent;
             panelSeleccion.Controls.Add(btnRotar);
             panelSeleccion.Controls.Add(textoInstruccion);
-            panelSeleccion.Location = new Point(612, 0);
+            panelSeleccion.Location = new Point(544, 0);
             panelSeleccion.Name = "panelSeleccion";
-            panelSeleccion.Size = new Size(401, 40);
+            panelSeleccion.Size = new Size(401, 37);
             panelSeleccion.TabIndex = 5;
             panelSeleccion.Visible = false;
             // 
@@ -99,7 +123,7 @@
             btnRotar.BackColor = Color.Black;
             btnRotar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRotar.ForeColor = SystemColors.Control;
-            btnRotar.Location = new Point(307, 5);
+            btnRotar.Location = new Point(307, 3);
             btnRotar.Name = "btnRotar";
             btnRotar.Size = new Size(94, 35);
             btnRotar.TabIndex = 1;
@@ -111,40 +135,29 @@
             // 
             textoInstruccion.Anchor = AnchorStyles.None;
             textoInstruccion.AutoSize = true;
+            textoInstruccion.BackColor = SystemColors.GradientActiveCaption;
             textoInstruccion.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textoInstruccion.Location = new Point(0, 14);
+            textoInstruccion.Location = new Point(0, 12);
             textoInstruccion.Name = "textoInstruccion";
             textoInstruccion.Size = new Size(51, 20);
             textoInstruccion.TabIndex = 0;
             textoInstruccion.Text = "label2";
             // 
-            // instruccionesLabel
-            // 
-            instruccionesLabel.Anchor = AnchorStyles.None;
-            instruccionesLabel.AutoSize = true;
-            instruccionesLabel.BackColor = Color.Transparent;
-            instruccionesLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            instruccionesLabel.Location = new Point(81, 9);
-            instruccionesLabel.Name = "instruccionesLabel";
-            instruccionesLabel.Size = new Size(51, 20);
-            instruccionesLabel.TabIndex = 4;
-            instruccionesLabel.Text = "label2";
-            instruccionesLabel.Visible = false;
-            // 
             // scMain
             // 
             scMain.Anchor = AnchorStyles.None;
-            scMain.BackColor = Color.Transparent;
+            scMain.BackColor = SystemColors.GradientActiveCaption;
             scMain.Location = new Point(65, 37);
             scMain.Name = "scMain";
             // 
             // scMain.Panel1
             // 
+            scMain.Panel1.BackColor = SystemColors.GradientActiveCaption;
             scMain.Panel1.Controls.Add(gridJuego);
             // 
             // scMain.Panel2
             // 
-            scMain.Panel2.BackColor = Color.Transparent;
+            scMain.Panel2.BackColor = SystemColors.GradientActiveCaption;
             scMain.Panel2.Controls.Add(barcoChiquitito);
             scMain.Panel2.Controls.Add(barcoGrande);
             scMain.Panel2.Controls.Add(barcoChico);
@@ -159,7 +172,7 @@
             // gridJuego
             // 
             gridJuego.Anchor = AnchorStyles.Left;
-            gridJuego.BackColor = SystemColors.GradientActiveCaption;
+            gridJuego.BackColor = SystemColors.ActiveCaption;
             gridJuego.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
             gridJuego.ColumnCount = 10;
             gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
@@ -251,7 +264,7 @@
             // gridEnemigo
             // 
             gridEnemigo.Anchor = AnchorStyles.Right;
-            gridEnemigo.BackColor = SystemColors.GradientActiveCaption;
+            gridEnemigo.BackColor = SystemColors.ActiveCaption;
             gridEnemigo.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
             gridEnemigo.ColumnCount = 10;
             gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
@@ -284,7 +297,7 @@
             // 
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
+            label1.BackColor = SystemColors.GradientActiveCaption;
             label1.Font = new Font("Old English Text MT", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
             label1.Location = new Point(17, 9);
@@ -304,7 +317,8 @@
             Text = "Form1";
             panelInicio.ResumeLayout(false);
             panelJuego.ResumeLayout(false);
-            panelJuego.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             panelSeleccion.ResumeLayout(false);
             panelSeleccion.PerformLayout();
             scMain.Panel1.ResumeLayout(false);
@@ -338,5 +352,6 @@
         private Label label2;
         public Label textoInstruccion;
         private Button btnRotar;
+        private Panel panel1;
     }
 }

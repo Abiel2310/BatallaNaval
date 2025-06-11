@@ -15,36 +15,12 @@ namespace BatallaNaval.Controladores
         static PictureBox barcoImg = null;
         static Panel panelSeleccion = null;
 
-        private static string ObtenerDireccionSiguiente(string actual)
-        {
-            return actual switch
-            {
-                "derecha" => "abajo",
-                "abajo" => "izquierda",
-                "izquierda" => "arriba",
-                "arriba" => "derecha",
-                _ => "derecha"
-            };
-        }
-
-        private static int ObtenerSiguienteInt(int actual)
-        {
-            return actual switch
-            {
-                0 => 1,
-                1 => 2,
-                2 => 3,
-                3 => 0,
-                _ => 0
-            };
-        }
-
 
         public static void ClickRotar(object sender, EventArgs e, Main form)
         {
-            if (barcoSeleccionado == null)
+            if (!barcoSeleccionado.EnPosicion)
             {
-                MessageBox.Show("No hay barco");
+                MessageBox.Show("Barco no posicionado");
                 return;
             }
             int cantidadCeldas = barcoSeleccionado.CantidadCeldas;
@@ -53,16 +29,11 @@ namespace BatallaNaval.Controladores
             Panel p = (Panel)Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaInicio)];
 
             // resetear las celdas
-            foreach (Celda cld in Main.celdasJuego)
+            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
             {
-                if (cld.ContieneBarco && cld.BarcoId == barcoSeleccionado.Id)
-                {
-                    cld.ContieneBarco = false;
-                    cld.BarcoId = 0;
-                }
+                cld.ContieneBarco = false;
+                cld.BarcoId = 0;
             }
-
-            List<Celda> celdasAOcupar = [];
 
             var posicion = EncontrarPosicion(celdaInicio, cantidadCeldas, barcoSeleccionado.Direccion);
 
@@ -72,88 +43,23 @@ namespace BatallaNaval.Controladores
                 return;
             }
 
-            celdasAOcupar = posicion.celdas;
+            barcoSeleccionado.CeldasPosicion = posicion.celdas;
             barcoSeleccionado.Fila = celdaInicio.Fila;
             barcoSeleccionado.Columna = celdaInicio.Columna;
             barcoSeleccionado.Direccion = posicion.direccion;
 
 
 
-            foreach (Celda cld in celdasAOcupar)
+            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
             {
-                //Main.celdasPosicion[Main.celdasJuego.IndexOf(cld)].BackColor = Color.Blue;
                 cld.ContieneBarco = true;
                 cld.BarcoId = barcoSeleccionado.Id;
             }
-            Point screenPos = p.PointToScreen(Point.Empty);
-            Point formPos = form.PointToClient(screenPos);
 
-            barcoImg.Location = formPos;
-
-
-            switch (posicion.direccion)
-            {
-                case "arriba":
-                    {
-                        barcoImg.Width = p.Width;
-                        barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
-
-                        // conseguir el punto mas arriba??
-                        int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (10 * num)];
-                        Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
-
-                        Point posIzq = p1.PointToScreen(Point.Empty);
-                        Point pos = form.PointToClient(posIzq);
-
-                        barcoImg.Location = pos;
-
-                        break;
-                    }
-
-                case "izquierda":
-                    {
-                        barcoImg.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        barcoImg.Height = p.Height;
-                        barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
-
-                        // conseguir el punto mas a izquierda
-                        int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
-                        Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
-
-                        Point posIzq = p1.PointToScreen(Point.Empty);
-                        Point pos = form.PointToClient(posIzq);
-
-                        barcoImg.Location = pos;
-                        barcoImg.Refresh();
-                        break;
-                    }
-                case "abajo":
-                    {
-                        barcoImg.Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                        barcoImg.Width = p.Width;
-                        barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
-                        barcoImg.Refresh();
-                        break;
-                    }
-                case "derecha":
-                    {
-                        barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        barcoImg.Height = p.Height;
-                        barcoImg.Width = p.Width *  barcoSeleccionado.CantidadCeldas;
-                        barcoImg.Refresh();
-                        break;
-                    };
-            }
-
-
-            barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            barcoImg.Refresh();
-
+            PosicionarBarco(posicion.direccion, celdaInicio, form, p, rotando: true);
         }
 
-        public static void SeleccionarBarco(object sender, EventArgs e, Barco barco, Label instruccion, TableLayoutPanel gridJuego, Panel panel, PictureBox barcoPb)
+        public static void SeleccionarBarco(object sender, EventArgs e, Barco barco, Label instruccion, TableLayoutPanel gridJuego, Panel panel, PictureBox barcoPb, Button btnRotar)
         {
             barcoSeleccionado = barco;
             barcoImg = barcoPb;
@@ -167,6 +73,8 @@ namespace BatallaNaval.Controladores
 
             panelSeleccion = panel;
 
+            btnRotar.Visible = barcoSeleccionado.EnPosicion;
+
             foreach (Control control in gridJuego.Controls)
             {
                 if (control is Panel)
@@ -179,7 +87,7 @@ namespace BatallaNaval.Controladores
         public static void SalirModoUbicacion(Label instruccion, TableLayoutPanel gridJuego)
         {
             Main.MoviendoBarco = false;
-            instruccion.Visible = false;
+            instruccion.Text = "Haga click en un barco para seleccionarlo";
             barcoSeleccionado = null;
             panelSeleccion.Visible = false;
 
@@ -194,18 +102,14 @@ namespace BatallaNaval.Controladores
 
         }
 
-        public static (Panel panel, Barco barco, string direccion) ElegirCelda(object sender, EventArgs e, Celda celda, Panel celdaPos, bool rotate=false)
+        public static (Barco? barco, string? direccion) ElegirCelda(Celda celda, Panel celdaPos, Main form, Button btnRotar)
         {
             int cantidadCeldas = barcoSeleccionado.CantidadCeldas;
-            Panel panel = null;
-            string direccion = "";
-            List<Celda> celdasAOcupar = [];
-
 
             // resetea las celdas
-            foreach (Celda cld in Main.celdasJuego)
+            if (barcoSeleccionado.CeldasPosicion != null)
             {
-                if (cld.ContieneBarco && cld.BarcoId == barcoSeleccionado.Id)
+                foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
                 {
                     cld.ContieneBarco = false;
                     cld.BarcoId = 0;
@@ -213,20 +117,15 @@ namespace BatallaNaval.Controladores
             }
 
             var posicion = EncontrarPosicion(celda, cantidadCeldas);
+            if (posicion.direccion == null) return (null, null);
 
-            // no se encontro la posicion
-            if (posicion.direccion == null)
-                return (null, null, null);
+            barcoSeleccionado.CeldasPosicion = posicion.celdas;
+            string direccion = posicion.direccion;
 
-            celdasAOcupar = posicion.celdas;
-            panel = posicion.panel;
-            direccion = posicion.direccion;
-
-            foreach (Celda celdaAOcupar in celdasAOcupar)
+            foreach (Celda celdaAOcupar in barcoSeleccionado.CeldasPosicion)
             {
                 celdaAOcupar.ContieneBarco = true;
                 celdaAOcupar.BarcoId = barcoSeleccionado.Id;
-                //Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaAOcupar)].BackColor = Color.Blue;
             }
 
             barcoSeleccionado.Fila = celda.Fila;
@@ -234,11 +133,16 @@ namespace BatallaNaval.Controladores
             barcoSeleccionado.Direccion = direccion;
 
 
+            PosicionarBarco(direccion, celda, form, celdaPos);
 
-            return (panel, barcoSeleccionado, direccion);
+            // mostrar button rotar
+            barcoSeleccionado.EnPosicion = true;
+            btnRotar.Visible = true;
+
+            return (barcoSeleccionado, direccion);
         }
 
-        static (Panel panel, List<Celda> celdas, string direccion) EncontrarPosicion(Celda celda, int cantidadCeldas, string dirOmitir="")
+        static (Panel panel, List<Celda> celdas, string direccion) EncontrarPosicion(Celda celda, int cantidadCeldas, string dirOmitir = "")
         {
             Celda? celdaDerecha = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
             Celda? celdaIzquierda = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
@@ -250,30 +154,41 @@ namespace BatallaNaval.Controladores
             string direccion = "";
             Panel panel = null;
 
-            List<Func<Celda, int, string, (List<Celda>?, string?, Panel?)>> listaPosicionesBuscar = [BuscarDerecha, BuscarAbajo, BuscarIzquierda, BuscarArriba];
+            List<Func<Celda, int, string, (List<Celda>?, string?, Panel?)>> lista = [BuscarDerecha, BuscarAbajo, BuscarIzquierda, BuscarArriba];
+            var listaPosicionesBuscar = barcoSeleccionado.OrdenRotacion.Select(i => lista[i]).ToList();
 
-            foreach(var action in listaPosicionesBuscar)
+            string[] direcciones = { "derecha", "abajo", "izquierda", "arriba" };
+            int currentIndex = Array.IndexOf(direcciones, barcoSeleccionado.Direccion);
+            bool estaRotando = !string.IsNullOrEmpty(dirOmitir);
+
+            for (int offset = 0; offset < 4; offset++)
             {
-                if (!lugarEncontrado)
+                int nextIndex = (currentIndex + offset) % 4;
+                string tryDir = direcciones[nextIndex];
+
+                if (tryDir == dirOmitir)
+                    continue;
+
+                if (estaRotando)
                 {
-                    var result = action(celda, cantidadCeldas, dirOmitir);
-                    if (result.Item2 != null)
-                    {
-                        lugarEncontrado = true;
-                        direccion = result.Item2;
-                        celdasAOcupar = result.Item1;
-                        panel = result.Item3;
-
-                        // hay rotacion
-                        if (!string.IsNullOrEmpty(dirOmitir))
-                        {
-                            int limit = 4;
-                            barcoSeleccionado.
-                        }
-
-                        break;
-                    }
+                    // rotar imagen
+                    barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    barcoImg.Refresh();
                 }
+
+                var buscarPosicion = lista[nextIndex];
+                var result = buscarPosicion(celda, cantidadCeldas, dirOmitir);
+
+                if (result.Item2 != null)
+                {
+                    lugarEncontrado = true;
+                    direccion = result.Item2;
+                    celdasAOcupar = result.Item1;
+                    panel = result.Item3;
+                    break;
+                }
+
+
             }
 
             if (!lugarEncontrado) return (null, null, null);
@@ -371,6 +286,100 @@ namespace BatallaNaval.Controladores
                 }
             }
             return (null, null, null);
+        }
+
+        static void PosicionarBarco(string dir, Celda celdaInicio, Main form, Panel p, bool rotando = false)
+        {
+            // eliminar el barco
+            if (barcoImg.Parent != null)
+                barcoImg.Parent.Controls.Remove(barcoImg);
+
+            // la posicion del barco empieza en la ubicacion del panel en el que se hizo click
+            Point formPos = form.PointToClient(p.PointToScreen(Point.Empty));
+            barcoImg.Location = formPos;
+          
+            // logica de rotacion de la imagen cuando no se apreta el boton de rotar
+            if (!rotando && barcoImg.Tag is Image originalImg)
+            {
+                Image nuevaImagen = (Image)originalImg.Clone();
+
+                switch(dir)
+                {
+                    case "derecha":
+                        nuevaImagen.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        break;
+                    case "abajo":
+                        nuevaImagen.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                        break;
+                    case "izquierda":
+                        nuevaImagen.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        break;
+                    case "arriba":
+                        break;
+                }
+                barcoImg.Image = nuevaImagen;
+                barcoImg.Refresh();
+            }
+
+            // poner la posicion de la ultima celda del barco
+            switch (dir)
+            {
+                case "arriba":
+                    {
+                        barcoImg.Width = p.Width;
+                        barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
+
+                        // conseguir el punto mas arriba??
+                        int num = barcoSeleccionado.CantidadCeldas - 1;
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (10 * num)];
+                        Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
+
+                        Point posIzq = p1.PointToScreen(Point.Empty);
+                        Point pos = form.PointToClient(posIzq);
+
+                        barcoImg.Location = pos;
+
+                        break;
+                    }
+
+                case "izquierda":
+                    {
+                        barcoImg.Height = p.Height;
+                        barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
+
+                        // conseguir el punto mas a izquierda
+                        int num = barcoSeleccionado.CantidadCeldas - 1;
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
+
+                        Point posIzq = p1.PointToScreen(Point.Empty);
+                        Point pos = form.PointToClient(posIzq);
+
+                        barcoImg.Location = pos;
+                        barcoImg.Refresh();
+                        break;
+                    }
+                case "abajo":
+                    {
+                        barcoImg.Width = p.Width;
+                        barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
+                        barcoImg.Refresh();
+                        break;
+                    }
+                case "derecha":
+                    {
+                        barcoImg.Height = p.Height;
+                        barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
+                        barcoImg.Refresh();
+                        break;
+                    };
+            }
+
+            // agregar el barco 
+            form.Controls.Add(barcoImg);
+
+            barcoImg.BackColor = SystemColors.ActiveCaption;
+            barcoImg.BringToFront();
         }
     }
 

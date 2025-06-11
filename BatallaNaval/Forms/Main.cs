@@ -41,7 +41,8 @@ namespace BatallaNaval
                 CantidadCeldas = 5,
                 NombreBarco = "porta aviones",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3]
+                OrdenRotacion = [0, 1, 2, 3], 
+                Direccion = "derecha"
             };
             Barco BarcoGrando = new()
             {
@@ -49,7 +50,8 @@ namespace BatallaNaval
                 CantidadCeldas = 4,
                 NombreBarco = "destructor",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3]
+                OrdenRotacion = [0, 1, 2, 3], 
+                Direccion = "derecha"
             };
             Barco BarcoUnPocoMasChico = new()
             {
@@ -57,27 +59,40 @@ namespace BatallaNaval
                 CantidadCeldas = 3,
                 NombreBarco = "cruiser",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3]
+                OrdenRotacion = [0, 1, 2, 3], 
+                Direccion = "derecha"
             };
             Barco BarcoChico = new()
             {
                 Id = 4,
                 CantidadCeldas = 2,
                 NombreBarco = "patrulla",
-                EnPosicion = false
+                EnPosicion = false,
+                OrdenRotacion = [0, 1, 2, 3], 
+                Direccion = "derecha"
             };
             Barco BarcoChiquito = new()
             {
                 Id = 5,
                 NombreBarco = "nave",
                 CantidadCeldas = 1,
-                OrdenRotacion = [0, 1, 2, 3]
+                OrdenRotacion = [0, 1, 2, 3], 
+                Direccion = "derecha"
             };
 
             List<Barco> barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
             List<Control> barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
 
             int contador = 1;
+
+            foreach (Control c in barcosEnTablero)
+            {
+                if (c is PictureBox pictureBox && pictureBox.Tag == null)
+                {
+                    pictureBox.Tag = pictureBox.Image.Clone();
+                }
+            }
+
             // inicializar celdas  
             for (int i = 0; i < gridJuego.RowCount; i++)
             {
@@ -101,6 +116,8 @@ namespace BatallaNaval
 
                     };
 
+
+
                     celdaClick = celda;
                     panelClick = p;
 
@@ -110,98 +127,7 @@ namespace BatallaNaval
                     {
                         if (MoviendoBarco)
                         {
-                            var seleccion = Barcos.ElegirCelda(s, args, celda, p);
-
-
-                            if (seleccion.barco != null)
-                            {
-                                PictureBox pb = (PictureBox)barcosEnTablero[barcos.IndexOf(seleccion.barco)];
-
-                                // reset the rotation to original
-                                if (pb.Tag == null)
-                                {
-                                    pb.Tag = pb.Image.Clone(); // Save original
-                                }
-                                pb.Image = (Image)((Image)pb.Tag).Clone();
-                                // Make sure the ship isn't already added to the form
-                                if (pb.Parent != null)
-                                    pb.Parent.Controls.Remove(pb);
-
-                                Point screenPos = p.PointToScreen(Point.Empty);
-                                Point formPos = this.PointToClient(screenPos);
-
-                                pb.Location = formPos;
-
-
-                                switch (seleccion.direccion)
-                                {
-                                    case "arriba":
-                                        {
-                                            pb.Width = p.Width;
-                                            pb.Height = p.Height * seleccion.barco.CantidadCeldas;
-
-                                            // conseguir el punto mas arriba??
-                                            int num = seleccion.barco.CantidadCeldas - 1;
-                                            Celda c = celdasJuego[celdasJuego.IndexOf(celda) - (10 * num)];
-                                            Control p1 = celdasPosicion[celdasJuego.IndexOf(c)];
-
-                                            Point posIzq = p1.PointToScreen(Point.Empty);
-                                            Point pos = this.PointToClient(posIzq);
-
-                                            pb.Location = pos;
-
-                                            break;
-                                        }
-
-                                    case "izquierda":
-                                        {
-                                            pb.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                                            pb.Height = p.Height;
-                                            pb.Width = p.Width * seleccion.barco.CantidadCeldas;
-
-                                            // conseguir el punto mas a izquierda
-                                            int num = seleccion.barco.CantidadCeldas - 1;
-                                            Celda c = celdasJuego[celdasJuego.IndexOf(celda) - num];
-                                            Control p1 = celdasPosicion[celdasJuego.IndexOf(c)];
-
-                                            Point posIzq = p1.PointToScreen(Point.Empty);
-                                            Point pos = this.PointToClient(posIzq);
-
-                                            pb.Location = pos;
-                                            pb.Refresh();
-                                            break;
-                                        }
-                                    case "abajo":
-                                        {
-                                            pb.Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                                            pb.Width = p.Width;
-                                            pb.Height = p.Height * seleccion.barco.CantidadCeldas;
-                                            pb.Refresh();
-                                            break;
-                                        }
-                                    case "derecha":
-                                        {
-                                            pb.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                                            pb.Height = p.Height;
-                                            pb.Width = p.Width * seleccion.barco.CantidadCeldas;
-                                            pb.Refresh();
-                                            break;
-                                        };
-                                }
-
-                                // Add the ship directly on the form
-                                this.Controls.Add(pb);
-
-                                pb.BackColor = SystemColors.GradientActiveCaption;
-
-
-                                pb.BringToFront();
-                                pb.Visible = true;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("No hay lugar");
+                            Barcos.ElegirCelda(celda, p, this, btnRotar);
                         }
                     };
 
@@ -214,19 +140,15 @@ namespace BatallaNaval
             foreach (Barco barco in barcos)
             {
                 Control barcoInTablero = barcosEnTablero[barcos.IndexOf(barco)];
-
                 PictureBox pb = (PictureBox)barcoInTablero;
 
-                barcoInTablero.Click += (s, args) => Barcos.SeleccionarBarco(s, args, barco, instruccionesLabel, gridJuego, panelSeleccion, pb);
+                barcoInTablero.Click += (s, args) => Barcos.SeleccionarBarco(s, args, barco, instruccionesLabel, gridJuego, panelSeleccion, pb, btnRotar);
             }
-
-
         }
 
         private void btnRotar_Click(object sender, EventArgs e)
         {
             Barcos.ClickRotar(sender, e, this);
-           
         }
     }
 }

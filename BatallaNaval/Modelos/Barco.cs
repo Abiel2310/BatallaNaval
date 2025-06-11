@@ -14,6 +14,7 @@ namespace BatallaNaval.Modelos
         public int Fila { get; set; }
         public int Columna { get; set; }
         public bool EnPosicion { get; set; }
+        public List<Celda>? CeldasPosicion { get; set; }
         public string Direccion { get; set; }
         public List<int> OrdenRotacion { get; set; }
 
