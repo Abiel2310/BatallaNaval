@@ -11,10 +11,15 @@ namespace BatallaNaval
         public static bool MoviendoBarco = false;
         public static List<Celda> celdasJuego = [];
         public static List<Panel> celdasPosicion = [];
-        private Celda celdaClick = null;
-        private Panel panelClick = null;
 
-        //public Label lab
+        public static List<Celda> celdasEnemigo = [];
+        public static List<Panel> panelesEnemigo = [];
+
+        public static List<Barco> barcos = [];
+        public static List<Barco> barcosEnemigo = [];
+
+
+
         public Main()
         {
             InitializeComponent();
@@ -41,7 +46,7 @@ namespace BatallaNaval
                 CantidadCeldas = 5,
                 NombreBarco = "porta aviones",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3], 
+                OrdenRotacion = [0, 1, 2, 3],
                 Direccion = "derecha"
             };
             Barco BarcoGrando = new()
@@ -50,7 +55,7 @@ namespace BatallaNaval
                 CantidadCeldas = 4,
                 NombreBarco = "destructor",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3], 
+                OrdenRotacion = [0, 1, 2, 3],
                 Direccion = "derecha"
             };
             Barco BarcoUnPocoMasChico = new()
@@ -59,7 +64,7 @@ namespace BatallaNaval
                 CantidadCeldas = 3,
                 NombreBarco = "cruiser",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3], 
+                OrdenRotacion = [0, 1, 2, 3],
                 Direccion = "derecha"
             };
             Barco BarcoChico = new()
@@ -68,7 +73,7 @@ namespace BatallaNaval
                 CantidadCeldas = 2,
                 NombreBarco = "patrulla",
                 EnPosicion = false,
-                OrdenRotacion = [0, 1, 2, 3], 
+                OrdenRotacion = [0, 1, 2, 3],
                 Direccion = "derecha"
             };
             Barco BarcoChiquito = new()
@@ -76,11 +81,12 @@ namespace BatallaNaval
                 Id = 5,
                 NombreBarco = "nave",
                 CantidadCeldas = 1,
-                OrdenRotacion = [0, 1, 2, 3], 
+                EnPosicion = false,
+                OrdenRotacion = [0, 1, 2, 3],
                 Direccion = "derecha"
             };
 
-            List<Barco> barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
+            barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
             List<Control> barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
 
             int contador = 1;
@@ -113,26 +119,45 @@ namespace BatallaNaval
                         Dock = DockStyle.Fill,
                         Tag = celda.Id,
                         Margin = new Padding(0),
-
                     };
-
-
-
-                    celdaClick = celda;
-                    panelClick = p;
 
                     celdasPosicion.Add(p);
 
-                    p.Click += (s, args) =>
+                    p.Click += (s, args) => clickSeleccionCelda(s, args, celda, p, barcos);
+
+                    gridJuego.Controls.Add(p);
+                    contador++;
+                }
+            }
+
+
+            // inicializar celdas enemigas
+            for (int i = 0; i < gridEnemigo.RowCount; i++)
+            {
+                for (int j = 0; j < gridEnemigo.ColumnCount; j++)
+                {
+                    Celda celda = new()
                     {
-                        if (MoviendoBarco)
-                        {
-                            Barcos.ElegirCelda(celda, p, this, btnRotar);
-                        }
+                        Id = contador,
+                        ContieneBarco = false,
+                        Atacada = false,
+                        Fila = i,
+                        Columna = j
+                    };
+                    celdasEnemigo.Add(celda);
+
+                    Panel p = new()
+                    {
+                        Dock = DockStyle.Fill,
+                        Tag = celda.Id,
+                        Margin = new Padding(0),
                     };
 
 
-                    gridJuego.Controls.Add(p);
+                    panelesEnemigo.Add(p);
+
+
+                    gridEnemigo.Controls.Add(p);
                     contador++;
                 }
             }
@@ -149,6 +174,56 @@ namespace BatallaNaval
         private void btnRotar_Click(object sender, EventArgs e)
         {
             Barcos.ClickRotar(sender, e, this);
+        }
+
+
+        private void empezarJuegoBtn_Click(object sender, EventArgs e)
+        {
+            foreach (Control control in gridJuego.Controls)
+            {
+                if (control is Panel)
+                {
+                    control.Cursor = Cursors.Default;
+                }
+            }
+
+            // poner posiciones de ia
+            Computadora.HacerSeleccion(this, btnRotar);
+
+
+        }
+
+        private void clickSeleccionCelda(object sender, EventArgs e, Celda celda, Panel p, List<Barco> barcos)
+        {
+            if (MoviendoBarco)
+            {
+                bool listo = false;
+                var lugar = Barcos.ElegirCelda(celda, p, this, btnRotar);
+                if (lugar.direccion == null)
+                {
+                    MessageBox.Show("No hay lugar");
+                    return;
+                };
+
+                Barcos.PosicionarBarco(lugar.direccion, celda, this, p);
+
+                // mostrar button rotar
+                btnRotar.Visible = true;
+
+                foreach (Barco barco in barcos)
+                {
+                    if (barco.EnPosicion)
+                    {
+                        listo = true;
+                    }
+                    else listo = false;
+                }
+
+                if (listo)
+                {
+                    empezarJuegoBtn.Visible = true;
+                }
+            }
         }
     }
 }

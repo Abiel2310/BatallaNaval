@@ -102,8 +102,12 @@ namespace BatallaNaval.Controladores
 
         }
 
-        public static (Barco? barco, string? direccion) ElegirCelda(Celda celda, Panel celdaPos, Main form, Button btnRotar)
+        public static (Barco? barco, string? direccion) ElegirCelda(Celda celda, Panel celdaPos, Main form, Button btnRotar, Barco barcoPc=null)
         {
+            if (barcoPc != null)
+            {
+                barcoSeleccionado = barcoPc;
+            }
             int cantidadCeldas = barcoSeleccionado.CantidadCeldas;
 
             // resetea las celdas
@@ -116,7 +120,7 @@ namespace BatallaNaval.Controladores
                 }
             }
 
-            var posicion = EncontrarPosicion(celda, cantidadCeldas);
+            var posicion = EncontrarPosicion(celda, cantidadCeldas, "", (barcoPc != null) ? true : false);
             if (posicion.direccion == null) return (null, null);
 
             barcoSeleccionado.CeldasPosicion = posicion.celdas;
@@ -132,34 +136,44 @@ namespace BatallaNaval.Controladores
             barcoSeleccionado.Columna = celda.Columna;
             barcoSeleccionado.Direccion = direccion;
 
-
-            PosicionarBarco(direccion, celda, form, celdaPos);
-
-            // mostrar button rotar
-            barcoSeleccionado.EnPosicion = true;
-            btnRotar.Visible = true;
-
             return (barcoSeleccionado, direccion);
         }
 
-        static (Panel panel, List<Celda> celdas, string direccion) EncontrarPosicion(Celda celda, int cantidadCeldas, string dirOmitir = "")
+        public static (List<Celda> celdas, string direccion) EncontrarPosicion(Celda celda, int cantidadCeldas, string dirOmitir = "", bool turnoPc = false)
         {
-            Celda? celdaDerecha = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
-            Celda? celdaIzquierda = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
-            Celda? celdaArriba = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
-            Celda? celdaAbajo = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
+            //Celda? celdaDerecha = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
+            //Celda? celdaIzquierda = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
+            //Celda? celdaArriba = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
+            //Celda? celdaAbajo = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
+
+            if (turnoPc)
+            {
+                //celdaDerecha = Main.celdasEnemigo.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
+                //celdaIzquierda = Main.celdasEnemigo.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
+                //celdaArriba = Main.celdasEnemigo.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
+                //celdaAbajo = Main.celdasEnemigo.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
+
+                //barcoSeleccionado = null;
+            }
+
             bool lugarEncontrado = false;
 
             List<Celda> celdasAOcupar = [];
             string direccion = "";
-            Panel panel = null;
 
-            List<Func<Celda, int, string, (List<Celda>?, string?, Panel?)>> lista = [BuscarDerecha, BuscarAbajo, BuscarIzquierda, BuscarArriba];
+            List<Func<Celda, int, string, List<Celda>, (List<Celda>?, string?)>> lista = [BuscarDerecha, BuscarAbajo, BuscarIzquierda, BuscarArriba];
             var listaPosicionesBuscar = barcoSeleccionado.OrdenRotacion.Select(i => lista[i]).ToList();
 
             string[] direcciones = { "derecha", "abajo", "izquierda", "arriba" };
             int currentIndex = Array.IndexOf(direcciones, barcoSeleccionado.Direccion);
             bool estaRotando = !string.IsNullOrEmpty(dirOmitir);
+
+            List<Celda> listaCeldas = [];
+
+            if (turnoPc)
+            {
+                listaCeldas = Main.celdasEnemigo;
+            } else listaCeldas = Main.celdasJuego;
 
             for (int offset = 0; offset < 4; offset++)
             {
@@ -169,13 +183,10 @@ namespace BatallaNaval.Controladores
                 if (tryDir == dirOmitir)
                     continue;
 
-
-                
-
                 var buscarPosicion = lista[nextIndex];
-                var result = buscarPosicion(celda, cantidadCeldas, dirOmitir);
+                var result = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
 
-                if (estaRotando && result.Item2 != null)
+                if (estaRotando && result.Item2 != null && !turnoPc)
                 {
                     // rotar imagen
                     barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -187,111 +198,105 @@ namespace BatallaNaval.Controladores
                     lugarEncontrado = true;
                     direccion = result.Item2;
                     celdasAOcupar = result.Item1;
-                    panel = result.Item3;
-
                     break;
                 }
 
             }
 
-            if (!lugarEncontrado) return (null, null, null);
+            if (!lugarEncontrado) return (null, null);
 
-            return (panel, celdasAOcupar, direccion);
+            return (celdasAOcupar, direccion);
         }
 
-        static (List<Celda>? celdasOcupar, string? direccion, Panel? panel) BuscarDerecha(Celda celda, int cantidadCeldas, string dirOmitir)
+        static (List<Celda>? celdasOcupar, string? direccion) BuscarDerecha(Celda celda, int cantidadCeldas, string dirOmitir, List<Celda> listaCeldas)
         {
-            Celda? celdaDerecha = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
-            Panel panel = null;
+            Celda? celdaDerecha = listaCeldas.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
 
             if (celdaDerecha != null && dirOmitir != "derecha")
             {
-                int start = Main.celdasJuego.IndexOf(celda);
+                int start = listaCeldas.IndexOf(celda);
                 int end = cantidadCeldas;
 
-                List<Celda> celdasOcupar = Main.celdasJuego.GetRange(start, end);
-
-
+                List<Celda> celdasOcupar = listaCeldas.GetRange(start, end);
                 if (!celdasOcupar.Any(c => c.ContieneBarco))
                 {
-                    panel = Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaDerecha)];
-                    return (celdasOcupar, "derecha", panel);
+                    return (celdasOcupar, "derecha");
                 }
             }
 
-            return (null, null, null);
+            return (null, null);
 
         }
 
-        static (List<Celda>? celdasOcupar, string? direccion, Panel? panel) BuscarAbajo(Celda celda, int cantidadCeldas, string dirOmitir)
+        static (List<Celda>? celdasOcupar, string? direccion) BuscarAbajo(Celda celda, int cantidadCeldas, string dirOmitir, List<Celda> listaCeldas)
         {
-            Celda? celdaAbajo = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
+            Celda? celdaAbajo = listaCeldas.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
 
             if (celdaAbajo != null && dirOmitir != "abajo")
             {
-                int start = Main.celdasJuego.IndexOf(celda) - cantidadCeldas;
-                int end = Main.celdasJuego.IndexOf(celda);
+                int start = listaCeldas.IndexOf(celda) - cantidadCeldas;
+                int end = listaCeldas.IndexOf(celda);
 
                 List<Celda> celdasOcupar = [];
                 int i = celda.Fila;
                 while (i < celda.Fila + cantidadCeldas)
                 {
-                    celdasOcupar.Add(Main.celdasJuego.First(c => c.Fila == i && c.Columna == celda.Columna));
+                    celdasOcupar.Add(listaCeldas.First(c => c.Fila == i && c.Columna == celda.Columna));
                     i++;
                 }
 
                 if (!celdasOcupar.Any(c => c.ContieneBarco))
                 {
-                    return (celdasOcupar, "abajo", Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaAbajo)]);
+                    return (celdasOcupar, "abajo");
                 }
             }
-            return (null, null, null);
+            return (null, null);
         }
 
-        static (List<Celda>? celdasOcupar, string? direccion, Panel? panel) BuscarIzquierda(Celda celda, int cantidadCeldas, string dirOmitir)
+        static (List<Celda>? celdasOcupar, string? direccion) BuscarIzquierda(Celda celda, int cantidadCeldas, string dirOmitir, List<Celda> listaCeldas)
         {
-            Celda? celdaIzquierda = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
+            Celda? celdaIzquierda = listaCeldas.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
             if (celdaIzquierda != null && dirOmitir != "izquierda")
             {
                 // buscar entre medio
-                int start = Main.celdasJuego.IndexOf(celda) - cantidadCeldas + 1;
+                int start = listaCeldas.IndexOf(celda) - cantidadCeldas + 1;
                 int end = cantidadCeldas;
 
-                List<Celda> celdasOcupar = Main.celdasJuego.GetRange(start, end);
+                List<Celda> celdasOcupar = listaCeldas.GetRange(start, end);
                 if (!celdasOcupar.Any(c => c.ContieneBarco))
                 {
-                    return (celdasOcupar, "izquierda", Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaIzquierda)]);
+                    return (celdasOcupar, "izquierda");
                 }
             }
-            return (null, null, null);
+            return (null, null);
         }
 
-        static (List<Celda>? celdasOcupar, string? direccion, Panel? panel) BuscarArriba(Celda celda, int cantidadCeldas, string dirOmitir)
+        static (List<Celda>? celdasOcupar, string? direccion) BuscarArriba(Celda celda, int cantidadCeldas, string dirOmitir, List<Celda> listaCeldas)
         {
-            Celda? celdaArriba = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
+            Celda? celdaArriba = listaCeldas.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
 
             if (celdaArriba != null && dirOmitir != "arriba")
             {
-                int start = Main.celdasJuego.IndexOf(celda) - cantidadCeldas;
-                int end = Main.celdasJuego.IndexOf(celda);
+                int start = listaCeldas.IndexOf(celda) - cantidadCeldas;
+                int end = listaCeldas.IndexOf(celda);
 
                 List<Celda> celdasOcupar = [];
                 int i = celda.Fila - (cantidadCeldas - 1);
                 while (i <= celda.Fila)
                 {
-                    celdasOcupar.Add(Main.celdasJuego.First(c => c.Fila == i && c.Columna == celda.Columna));
+                    celdasOcupar.Add(listaCeldas.First(c => c.Fila == i && c.Columna == celda.Columna));
                     i++;
                 }
 
                 if (!celdasOcupar.Any(c => c.ContieneBarco))
                 {
-                    return (celdasOcupar, "arriba", Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaArriba)]);
+                    return (celdasOcupar, "arriba");
                 }
             }
-            return (null, null, null);
+            return (null, null);
         }
 
-        static void PosicionarBarco(string dir, Celda celdaInicio, Main form, Panel p, bool rotando = false)
+        public static void PosicionarBarco(string dir, Celda celdaInicio, Main form, Panel p, bool rotando = false)
         {
             // eliminar el barco
             if (barcoImg.Parent != null)
@@ -383,6 +388,8 @@ namespace BatallaNaval.Controladores
 
             barcoImg.BackColor = SystemColors.ActiveCaption;
             barcoImg.BringToFront();
+
+            barcoSeleccionado.EnPosicion = true;
         }
     }
 

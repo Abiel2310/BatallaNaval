@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BatallaNaval.Modelos
 {
-    internal class Barco
+    public class Barco
     {
         public int Id { get; set; }
         public int CantidadCeldas { get; set; }
@@ -17,7 +17,5 @@ namespace BatallaNaval.Modelos
         public List<Celda>? CeldasPosicion { get; set; }
         public string Direccion { get; set; }
         public List<int> OrdenRotacion { get; set; }
-
-
     }
 }

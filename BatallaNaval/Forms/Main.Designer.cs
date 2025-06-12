@@ -37,6 +37,7 @@
             textoInstruccion = new Label();
             scMain = new SplitContainer();
             gridJuego = new TableLayoutPanel();
+            empezarJuegoBtn = new Button();
             barcoChiquitito = new PictureBox();
             barcoGrande = new PictureBox();
             barcoChico = new PictureBox();
@@ -158,6 +159,7 @@
             // scMain.Panel2
             // 
             scMain.Panel2.BackColor = SystemColors.GradientActiveCaption;
+            scMain.Panel2.Controls.Add(empezarJuegoBtn);
             scMain.Panel2.Controls.Add(barcoChiquitito);
             scMain.Panel2.Controls.Add(barcoGrande);
             scMain.Panel2.Controls.Add(barcoChico);
@@ -200,6 +202,20 @@
             gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             gridJuego.Size = new Size(521, 519);
             gridJuego.TabIndex = 0;
+            // 
+            // empezarJuegoBtn
+            // 
+            empezarJuegoBtn.Anchor = AnchorStyles.None;
+            empezarJuegoBtn.BackColor = Color.Black;
+            empezarJuegoBtn.ForeColor = SystemColors.Control;
+            empezarJuegoBtn.Location = new Point(48, 277);
+            empezarJuegoBtn.Name = "empezarJuegoBtn";
+            empezarJuegoBtn.Size = new Size(223, 52);
+            empezarJuegoBtn.TabIndex = 8;
+            empezarJuegoBtn.Text = "Empezar juego";
+            empezarJuegoBtn.UseVisualStyleBackColor = false;
+            empezarJuegoBtn.Visible = false;
+            empezarJuegoBtn.Click += empezarJuegoBtn_Click;
             // 
             // barcoChiquitito
             // 
@@ -353,5 +369,6 @@
         public Label textoInstruccion;
         private Button btnRotar;
         private Panel panel1;
+        private Button empezarJuegoBtn;
     }
 }
