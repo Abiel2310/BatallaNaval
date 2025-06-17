@@ -17,5 +17,6 @@ namespace BatallaNaval.Modelos
         public List<Celda>? CeldasPosicion { get; set; }
         public string Direccion { get; set; }
         public List<int> OrdenRotacion { get; set; }
+        public bool Hundido{ get; set; }
     }
 }

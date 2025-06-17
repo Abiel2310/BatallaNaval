@@ -18,6 +18,10 @@ namespace BatallaNaval
         public static List<Barco> barcos = [];
         public static List<Barco> barcosEnemigo = [];
 
+        public static List<Celda> celdasAtacadasJugador = [];
+        public static List<Celda> celdasAtacadasEnemigo = [];
+
+        static bool JuegoEmpezado = false;
 
 
         public Main()
@@ -47,7 +51,8 @@ namespace BatallaNaval
                 NombreBarco = "porta aviones",
                 EnPosicion = false,
                 OrdenRotacion = [0, 1, 2, 3],
-                Direccion = "derecha"
+                Direccion = "derecha",
+                Hundido = false
             };
             Barco BarcoGrando = new()
             {
@@ -56,7 +61,8 @@ namespace BatallaNaval
                 NombreBarco = "destructor",
                 EnPosicion = false,
                 OrdenRotacion = [0, 1, 2, 3],
-                Direccion = "derecha"
+                Direccion = "derecha",
+                Hundido = false
             };
             Barco BarcoUnPocoMasChico = new()
             {
@@ -65,7 +71,8 @@ namespace BatallaNaval
                 NombreBarco = "cruiser",
                 EnPosicion = false,
                 OrdenRotacion = [0, 1, 2, 3],
-                Direccion = "derecha"
+                Direccion = "derecha",
+                Hundido = false
             };
             Barco BarcoChico = new()
             {
@@ -74,7 +81,8 @@ namespace BatallaNaval
                 NombreBarco = "patrulla",
                 EnPosicion = false,
                 OrdenRotacion = [0, 1, 2, 3],
-                Direccion = "derecha"
+                Direccion = "derecha",
+                Hundido = false
             };
             Barco BarcoChiquito = new()
             {
@@ -83,11 +91,12 @@ namespace BatallaNaval
                 CantidadCeldas = 1,
                 EnPosicion = false,
                 OrdenRotacion = [0, 1, 2, 3],
-                Direccion = "derecha"
+                Direccion = "derecha",
+                Hundido = false
             };
 
             barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
-            List<Control> barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
+            List<PictureBox> barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
 
             int contador = 1;
 
@@ -152,10 +161,9 @@ namespace BatallaNaval
                         Tag = celda.Id,
                         Margin = new Padding(0),
                     };
-
-
                     panelesEnemigo.Add(p);
 
+                    p.Click += (s, args) => ClickCeldaEnemigo(s, args, celda, p, barcosEnTablero);
 
                     gridEnemigo.Controls.Add(p);
                     contador++;
@@ -171,14 +179,55 @@ namespace BatallaNaval
             }
         }
 
+        private void ClickCeldaEnemigo(object sender, EventArgs e, Celda celda, Panel p, List<PictureBox> barcosEnTablero)
+        {
+            if (JuegoEmpezado && !celda.Atacada)
+            {
+                var seleccion = Juego.HacerSeleccion(celda, barcosEnTablero);
+                if (seleccion.contieneBarco)
+                {
+                    p.BackColor = Color.Red;
+                    celdasAtacadasJugador.Add(celda);
+
+                    // fijarse si se hundio el barco completo
+                    if (seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
+                    {
+                        seleccion.barcoAtacado.Hundido = true;
+                    }
+                }
+                else
+                {
+                    p.BackColor = Color.White;
+                }
+
+                p.Cursor = Cursors.Default;
+                celda.Atacada = true;
+
+                if (Juego.VerificarFin(celdasAtacadasJugador))
+                {
+                    MessageBox.Show("GANO EL JUEGO!!");
+                    this.Close();
+                }
+                else
+                {
+                    bool computadoraGano = Computadora.TurnoComputadora(instruccionesLabel, this, barcosEnTablero);
+                    if (computadoraGano)
+                    {
+                        MessageBox.Show("PERDIO EL JUEGO!!");
+                        this.Close();
+                    }
+                }
+            };
+        }
+
         private void btnRotar_Click(object sender, EventArgs e)
         {
             Barcos.ClickRotar(sender, e, this);
         }
 
-
         private void empezarJuegoBtn_Click(object sender, EventArgs e)
         {
+            empezarJuegoBtn.Visible = false;
             foreach (Control control in gridJuego.Controls)
             {
                 if (control is Panel)
@@ -189,7 +238,12 @@ namespace BatallaNaval
 
             // poner posiciones de ia
             Computadora.HacerSeleccion(this, btnRotar);
-
+            JuegoEmpezado = true;
+            foreach (Panel panel in panelesEnemigo)
+            {
+                panel.Cursor = Cursors.Hand;
+            }
+            instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
 
         }
 

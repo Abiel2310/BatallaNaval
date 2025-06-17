@@ -141,21 +141,6 @@ namespace BatallaNaval.Controladores
 
         public static (List<Celda> celdas, string direccion) EncontrarPosicion(Celda celda, int cantidadCeldas, string dirOmitir = "", bool turnoPc = false)
         {
-            //Celda? celdaDerecha = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
-            //Celda? celdaIzquierda = Main.celdasJuego.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
-            //Celda? celdaArriba = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
-            //Celda? celdaAbajo = Main.celdasJuego.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
-
-            if (turnoPc)
-            {
-                //celdaDerecha = Main.celdasEnemigo.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
-                //celdaIzquierda = Main.celdasEnemigo.FirstOrDefault(c => c.Columna == celda.Columna - (cantidadCeldas - 1) && celda.Fila == c.Fila);
-                //celdaArriba = Main.celdasEnemigo.FirstOrDefault(c => c.Fila == celda.Fila - (cantidadCeldas - 1) && celda.Columna == c.Columna);
-                //celdaAbajo = Main.celdasEnemigo.FirstOrDefault(c => c.Fila == celda.Fila + (cantidadCeldas - 1) && celda.Columna == c.Columna);
-
-                //barcoSeleccionado = null;
-            }
-
             bool lugarEncontrado = false;
 
             List<Celda> celdasAOcupar = [];
@@ -186,7 +171,7 @@ namespace BatallaNaval.Controladores
                 var buscarPosicion = lista[nextIndex];
                 var result = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
 
-                if (estaRotando && result.Item2 != null && !turnoPc)
+                if (estaRotando && !turnoPc)
                 {
                     // rotar imagen
                     barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -328,7 +313,10 @@ namespace BatallaNaval.Controladores
                 barcoImg.Image = nuevaImagen;
                 barcoImg.Refresh();
             }
+            //if (rotando && barcoImg.Tag is Image originalImg)
+            //{
 
+            //}
             // poner la posicion de la ultima celda del barco
             switch (dir)
             {
