@@ -394,5 +394,12 @@ namespace BatallaNaval.Controladores
                 _ => "derecha"
             };
         }
+
+        public static void ResetState()
+        {
+            ultimaAtacada = null;
+            ultimoBarcoAtacado = null;
+            proximaDireccionBuscar = "";
+        }
     }
 }

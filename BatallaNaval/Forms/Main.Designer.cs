@@ -331,6 +331,7 @@
             Controls.Add(panelInicio);
             Name = "Main";
             Text = "Form1";
+            FormClosing += Main_FormClosing;
             panelInicio.ResumeLayout(false);
             panelJuego.ResumeLayout(false);
             panel1.ResumeLayout(false);

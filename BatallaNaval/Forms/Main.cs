@@ -207,6 +207,8 @@ namespace BatallaNaval
                 {
                     MessageBox.Show("GANO EL JUEGO!!");
                     this.Close();
+                    ResetGameState();
+                    Computadora.ResetState();
                 }
                 else
                 {
@@ -215,6 +217,8 @@ namespace BatallaNaval
                     {
                         MessageBox.Show("PERDIO EL JUEGO!!");
                         this.Close();
+                        ResetGameState();
+                        Computadora.ResetState();
                     }
                 }
             };
@@ -278,6 +282,26 @@ namespace BatallaNaval
                     empezarJuegoBtn.Visible = true;
                 }
             }
+        }
+
+        public static void ResetGameState()
+        {
+            celdasJuego = new List<Celda>();
+            celdasPosicion = new List<Panel>();
+            barcos = new List<Barco>();
+            barcosEnemigo = new List<Barco>();
+            celdasEnemigo = new List<Celda>();
+            panelesEnemigo = new List<Panel>();
+            celdasAtacadasEnemigo = new List<Celda>();
+
+            // Also reset computer state
+            Computadora.ResetState();
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ResetGameState();
+            Computadora.ResetState();
         }
     }
 }
