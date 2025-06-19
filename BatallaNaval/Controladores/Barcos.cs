@@ -11,7 +11,7 @@ namespace BatallaNaval.Controladores
 {
     internal class Barcos
     {
-        static Barco barcoSeleccionado = null;
+        public static Barco? barcoSeleccionado = null;
         static PictureBox barcoImg = null;
         static Panel panelSeleccion = null;
 
@@ -61,26 +61,30 @@ namespace BatallaNaval.Controladores
 
         public static void SeleccionarBarco(object sender, EventArgs e, Barco barco, Label instruccion, TableLayoutPanel gridJuego, Panel panel, PictureBox barcoPb, Button btnRotar)
         {
-            barcoSeleccionado = barco;
-            barcoImg = barcoPb;
-            Main.MoviendoBarco = true;
-
-            instruccion.Text = "Haga click en una celda, o aprete esc para salir";
-            instruccion.Visible = true;
-
-            panel.Visible = true;
-            panel.Controls[1].Text = $"Barco seleccionado: {barcoSeleccionado.NombreBarco}";
-
-            panelSeleccion = panel;
-
-            btnRotar.Visible = barcoSeleccionado.EnPosicion;
-
-            foreach (Control control in gridJuego.Controls)
+            if (!Main.JuegoEmpezado)
             {
-                if (control is Panel)
+                barcoSeleccionado = barco;
+                barcoImg = barcoPb;
+                Main.MoviendoBarco = true;
+
+                instruccion.Text = "Haga click en una celda, o aprete esc para salir";
+                instruccion.Visible = true;
+
+                panel.Visible = true;
+                panel.Controls[1].Text = $"Barco seleccionado: {barcoSeleccionado.NombreBarco}";
+
+                panelSeleccion = panel;
+
+                btnRotar.Visible = barcoSeleccionado.EnPosicion;
+
+                foreach (Control control in gridJuego.Controls)
                 {
-                    control.Cursor = Cursors.Hand;
+                    if (control is Panel)
+                    {
+                        control.Cursor = Cursors.Hand;
+                    }
                 }
+
             }
         }
 

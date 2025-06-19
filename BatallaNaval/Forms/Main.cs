@@ -21,7 +21,9 @@ namespace BatallaNaval
         public static List<Celda> celdasAtacadasJugador = [];
         public static List<Celda> celdasAtacadasEnemigo = [];
 
-        static bool JuegoEmpezado = false;
+        public static bool JuegoEmpezado = false;
+
+        private List<PictureBox> barcosEnTablero = [];
 
 
         public Main()
@@ -96,7 +98,7 @@ namespace BatallaNaval
             };
 
             barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
-            List<PictureBox> barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
+            barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
 
             int contador = 1;
 
@@ -232,6 +234,8 @@ namespace BatallaNaval
         private void empezarJuegoBtn_Click(object sender, EventArgs e)
         {
             empezarJuegoBtn.Visible = false;
+            panelSeleccion.Visible = false;
+            Barcos.barcoSeleccionado = null;
             foreach (Control control in gridJuego.Controls)
             {
                 if (control is Panel)
@@ -246,6 +250,15 @@ namespace BatallaNaval
             foreach (Panel panel in panelesEnemigo)
             {
                 panel.Cursor = Cursors.Hand;
+            }
+
+            foreach (Barco barco in barcos)
+            {
+                Control barcoInTablero = barcosEnTablero[barcos.IndexOf(barco)];
+                PictureBox pb = (PictureBox)barcoInTablero;
+                pb.Cursor = Cursors.Default;
+
+                barcoInTablero.Click -= (s, args) => Barcos.SeleccionarBarco(s, args, barco, instruccionesLabel, gridJuego, panelSeleccion, pb, btnRotar);
             }
             instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
 
