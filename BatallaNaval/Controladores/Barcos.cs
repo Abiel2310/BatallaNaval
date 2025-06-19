@@ -287,6 +287,22 @@ namespace BatallaNaval.Controladores
 
         public static void PosicionarBarco(string dir, Celda celdaInicio, Main form, Panel p, bool rotando = false)
         {
+            // Add null check before accessing barcoImg
+            if (barcoImg == null)
+            {
+                // Handle computer ships differently (no visual representation needed)
+                if (barcoSeleccionado != null && barcoSeleccionado.Id > Main.barcos.Count)
+                {
+                    // el barco ya esta encontrado??
+                    barcoSeleccionado.EnPosicion = true;
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Error: barcoImg es nulo");
+                    return;
+                }
+            }
             // eliminar el barco
             if (barcoImg.Parent != null)
                 barcoImg.Parent.Controls.Remove(barcoImg);
@@ -382,6 +398,13 @@ namespace BatallaNaval.Controladores
             barcoImg.BringToFront();
 
             barcoSeleccionado.EnPosicion = true;
+        }
+
+        public static void ResetState()
+        {
+            //barcoSeleccionado = null;
+            barcoImg = null;
+            panelSeleccion = null;
         }
     }
 

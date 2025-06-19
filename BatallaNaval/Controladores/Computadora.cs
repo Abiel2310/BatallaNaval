@@ -15,6 +15,8 @@ namespace BatallaNaval.Controladores
         private static Barco? ultimoBarcoAtacado = null;
         static string proximaDireccionBuscar = "";
 
+        public static bool computadoraJugando = false;
+
         public static void HacerSeleccion(Main form, Button btnRotar)
         {
             foreach (Barco barco in Main.barcos)
@@ -66,6 +68,7 @@ namespace BatallaNaval.Controladores
 
         public static bool TurnoComputadora(Label instruccionesLabel, Main form, List<PictureBox> barcosImg)
         {
+            computadoraJugando = true;
             instruccionesLabel.Text = "Turno de computadora...";
 
             // si hay ataques enemigos que acertaron, setear la ultima atacada
@@ -97,11 +100,13 @@ namespace BatallaNaval.Controladores
             // fijarse si se hundio el barco completo
             if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
             {
-                seleccion.barcoAtacado.Hundido = true; 
+                seleccion.barcoAtacado.Hundido = true;
+                ultimoBarcoAtacado = null;
                 proximaDireccionBuscar = "derecha";
             }
 
             instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
+            computadoraJugando = false;
 
             // verificar fin de juego
             if (Juego.VerificarFin(Main.celdasAtacadasEnemigo))

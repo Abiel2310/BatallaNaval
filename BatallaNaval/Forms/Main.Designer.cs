@@ -73,6 +73,7 @@
             // 
             // panelJuego
             // 
+            panelJuego.BackColor = SystemColors.GradientActiveCaption;
             panelJuego.BackgroundImage = Properties.Resources.background;
             panelJuego.Controls.Add(panel1);
             panelJuego.Controls.Add(scMain);
@@ -326,6 +327,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.GradientActiveCaption;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1079, 609);
             Controls.Add(panelInicio);

@@ -30,20 +30,11 @@ namespace BatallaNaval.Controladores
 
         public static bool VerificarFin(List<Celda> celdasAtacadas)
         {
-            int numeroCeldasParaGanar = 0;
-            foreach (Barco barco in Main.barcos)
-            {
-                numeroCeldasParaGanar += barco.CantidadCeldas;
-            }
+            int numeroCeldasParaGanar = Main.barcos.Sum(barco => barco.CantidadCeldas);
 
-            int numeroAtacadasCorrecta = celdasAtacadas.Count;
+            int numeroAtacadasCorrecta = celdasAtacadas.Count(c => c.ContieneBarco);
 
-            if (numeroAtacadasCorrecta >= numeroCeldasParaGanar)
-            {
-                //MessageBox.Show(numeroAtacadasCorrecta + " " + celdasAtacadas.Count);
-                return true;
-            }
-            return false;
+            return numeroAtacadasCorrecta >= numeroCeldasParaGanar;
         }
     }
 }

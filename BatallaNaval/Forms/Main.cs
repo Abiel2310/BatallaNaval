@@ -183,7 +183,7 @@ namespace BatallaNaval
 
         private void ClickCeldaEnemigo(object sender, EventArgs e, Celda celda, Panel p, List<PictureBox> barcosEnTablero)
         {
-            if (JuegoEmpezado && !celda.Atacada)
+            if (!Computadora.computadoraJugando && JuegoEmpezado && !celda.Atacada)
             {
                 var seleccion = Juego.HacerSeleccion(celda, barcosEnTablero);
                 if (seleccion.contieneBarco)
@@ -208,9 +208,10 @@ namespace BatallaNaval
                 if (Juego.VerificarFin(celdasAtacadasJugador))
                 {
                     MessageBox.Show("GANO EL JUEGO!!");
-                    this.Close();
                     ResetGameState();
                     Computadora.ResetState();
+                    Barcos.ResetState();
+                    this.Close();
                 }
                 else
                 {
@@ -218,9 +219,10 @@ namespace BatallaNaval
                     if (computadoraGano)
                     {
                         MessageBox.Show("PERDIO EL JUEGO!!");
-                        this.Close();
                         ResetGameState();
                         Computadora.ResetState();
+                        Barcos.ResetState();
+                        this.Close();
                     }
                 }
             };
@@ -300,7 +302,7 @@ namespace BatallaNaval
         public static void ResetGameState()
         {
             celdasJuego = new List<Celda>();
-            celdasPosicion = new List<Panel>();
+            //celdasPosicion = new List<Panel>();
             barcos = new List<Barco>();
             barcosEnemigo = new List<Barco>();
             celdasEnemigo = new List<Celda>();
@@ -309,12 +311,14 @@ namespace BatallaNaval
 
             // Also reset computer state
             Computadora.ResetState();
+            Barcos.ResetState();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             ResetGameState();
             Computadora.ResetState();
+            Barcos.ResetState();
         }
     }
 }
