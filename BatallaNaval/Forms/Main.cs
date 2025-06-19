@@ -31,6 +31,9 @@ namespace BatallaNaval
             InitializeComponent();
             this.KeyPreview = true;
 
+            gridJuego.Controls.Clear();
+            gridEnemigo.Controls.Clear();
+
             this.KeyDown += (s, e) =>
             {
                 if (MoviendoBarco)
@@ -209,8 +212,6 @@ namespace BatallaNaval
                 {
                     MessageBox.Show("GANO EL JUEGO!!");
                     ResetGameState();
-                    Computadora.ResetState();
-                    Barcos.ResetState();
                     this.Close();
                 }
                 else
@@ -220,8 +221,6 @@ namespace BatallaNaval
                     {
                         MessageBox.Show("PERDIO EL JUEGO!!");
                         ResetGameState();
-                        Computadora.ResetState();
-                        Barcos.ResetState();
                         this.Close();
                     }
                 }
@@ -245,6 +244,16 @@ namespace BatallaNaval
                     control.Cursor = Cursors.Default;
                 }
             }
+
+            //foreach (Panel panel in panelesEnemigo)
+            //{
+            //    panel.Click -= ClickCeldaEnemigo; // Remove old handlers
+            //    panel.Click += (s, args) =>
+            //    {
+            //        var celda = celdasEnemigo[panelesEnemigo.IndexOf(panel)];
+            //        ClickCeldaEnemigo(s, args, celda, panel, barcosEnTablero);
+            //    };
+            //}
 
             // poner posiciones de ia
             Computadora.HacerSeleccion(this, btnRotar);
@@ -301,15 +310,21 @@ namespace BatallaNaval
 
         public static void ResetGameState()
         {
+            // Clear all game state
             celdasJuego = new List<Celda>();
-            //celdasPosicion = new List<Panel>();
+            celdasPosicion = new List<Panel>();
             barcos = new List<Barco>();
             barcosEnemigo = new List<Barco>();
             celdasEnemigo = new List<Celda>();
             panelesEnemigo = new List<Panel>();
             celdasAtacadasEnemigo = new List<Celda>();
+            celdasAtacadasJugador = new List<Celda>(); // Add this missing reset
 
-            // Also reset computer state
+            // Reset flags
+            JuegoEmpezado = false;
+            MoviendoBarco = false;
+
+            // Reset static classes
             Computadora.ResetState();
             Barcos.ResetState();
         }
@@ -317,8 +332,8 @@ namespace BatallaNaval
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             ResetGameState();
-            Computadora.ResetState();
-            Barcos.ResetState();
+            //Computadora.ResetState();
+            //Barcos.ResetState();
         }
     }
 }
