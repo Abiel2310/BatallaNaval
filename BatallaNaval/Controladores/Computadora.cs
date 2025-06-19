@@ -10,27 +10,26 @@ namespace BatallaNaval.Controladores
 {
     internal class Computadora
     {
-        private static Celda? CeldaAnterior;
         private static Celda? ultimaAtacada = null;
 
-        private static List<Celda> celdasNoAtacadas;
-        private static Barco ultimoBarcoAtacado = null;
-        private static string proximaDireccionBuscar = "";
+        private static Barco? ultimoBarcoAtacado = null;
+        static string proximaDireccionBuscar = "";
 
         public static void HacerSeleccion(Main form, Button btnRotar)
         {
             foreach (Barco barco in Main.barcos)
             {
                 // setear barcos
-                Barco barcoEnemigo = new();
-
-                barcoEnemigo.Id = barco.Id + Main.barcos.Count;
-                barcoEnemigo.CantidadCeldas = barco.CantidadCeldas;
-                barcoEnemigo.NombreBarco = barco.NombreBarco;
-                barcoEnemigo.EnPosicion = false;
-                barcoEnemigo.OrdenRotacion = [0, 1, 2, 3];
-                barcoEnemigo.Direccion = "derecha";
-                barcoEnemigo.Hundido = false;
+                Barco barcoEnemigo = new()
+                {
+                    Id = barco.Id + Main.barcos.Count,
+                    CantidadCeldas = barco.CantidadCeldas,
+                    NombreBarco = barco.NombreBarco,
+                    EnPosicion = false,
+                    OrdenRotacion = [0, 1, 2, 3],
+                    Direccion = "derecha",
+                    Hundido = false
+                };
 
                 Main.barcosEnemigo.Add(barcoEnemigo);
 
@@ -68,50 +67,46 @@ namespace BatallaNaval.Controladores
         public static bool TurnoComputadora(Label instruccionesLabel, Main form, List<PictureBox> barcosImg)
         {
             instruccionesLabel.Text = "Turno de computadora...";
-            celdasNoAtacadas = Main.celdasJuego.Where(c => !c.Atacada).ToList();
 
             // si hay ataques enemigos que acertaron, setear la ultima atacada
             if (Main.celdasAtacadasEnemigo.Count > 0)
             {
-                ultimaAtacada = Main.celdasAtacadasEnemigo[Main.celdasAtacadasEnemigo.Count - 1];
+                ultimaAtacada = Main.celdasAtacadasEnemigo[^1];
             }
 
 
-            var (celdaElegida, panelCelda, proximaDireccion) = ElegirCelda(ultimaAtacada, proximaDireccionBuscar);
-            if (!string.IsNullOrEmpty(proximaDireccion))
-                proximaDireccionBuscar = proximaDireccion;
+            var seleccionComputadora = ElegirCelda(ultimaAtacada, proximaDireccionBuscar);
+            proximaDireccionBuscar = seleccionComputadora.proximaDireccion;
 
 
-            var seleccion = Juego.HacerSeleccion(celdaElegida, barcosImg, true);
+            var seleccion = Juego.HacerSeleccion(seleccionComputadora.celdaElegida, barcosImg, true);
             if (seleccion.contieneBarco)
             {
-                CeldaAnterior = ultimaAtacada;
+                CrearImagenFuego(form, seleccionComputadora.panelCelda, seleccion.barcoImg);
 
-                CrearImagenFuego(form, panelCelda, seleccion.barcoImg);
-
-                Main.celdasAtacadasEnemigo.Add(celdaElegida);
+                Main.celdasAtacadasEnemigo.Add(seleccionComputadora.celdaElegida);
                 ultimoBarcoAtacado = seleccion.barcoAtacado;
             }
             else
             {
-                CrearImagenAgua(form, panelCelda);
-
-                proximaDireccionBuscar = "derecha";
-                CeldaAnterior = null;
+                CrearImagenAgua(form, seleccionComputadora.panelCelda);
             }
+
+            seleccionComputadora.celdaElegida.Atacada = true;
 
             // fijarse si se hundio el barco completo
             if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
             {
-                seleccion.barcoAtacado.Hundido = true;
+                seleccion.barcoAtacado.Hundido = true; 
+                proximaDireccionBuscar = "derecha";
             }
 
             instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
-            celdaElegida.Atacada = true;
 
             // verificar fin de juego
             if (Juego.VerificarFin(Main.celdasAtacadasEnemigo))
             {
+                //MessageBox.Show
                 return true;
             }
             return false;
@@ -119,8 +114,10 @@ namespace BatallaNaval.Controladores
 
 
 
-        static (Celda celdaElegida, Panel panelCelda, string proximaDireccion) ElegirCelda(Celda ultimaAtacada, string direccionBuscar = "derecha")
+        static (Celda celdaElegida, Panel panelCelda, string proximaDireccion) ElegirCelda(Celda ultimaAtacada, string direccionBuscar)
         {
+            if (string.IsNullOrEmpty(direccionBuscar)) direccionBuscar = "derecha";
+
             if (direccionBuscar == "seguirDerecha")
             {
                 Celda? celdaDerecha = Main.celdasJuego.FirstOrDefault(celda => celda.Fila == ultimaAtacada.Fila && celda.Columna == ultimaAtacada.Columna + 1);
@@ -180,10 +177,10 @@ namespace BatallaNaval.Controladores
                         Celda? celda = null;
                         while (true)
                         {
-                            Columna++;
                             celda = Main.celdasJuego.First(c => c.Fila == celdaIzquierda.Fila && c.Columna == Columna);
 
                             if (!celda.Atacada) break;
+                            Columna++;
                         }
 
                         Panel panelCelda = Main.celdasPosicion[Main.celdasJuego.IndexOf(celda)];
@@ -275,7 +272,7 @@ namespace BatallaNaval.Controladores
 
 
             // si el ultimo ataque no existe o el ultimo barco fue hundido retornar random
-            if (ultimaAtacada == null || ultimoBarcoAtacado.Hundido)
+            if (ultimoBarcoAtacado == null || ultimoBarcoAtacado?.Hundido == true)
             {
                 Random r = new();
                 List<Celda> listaCeldas = Main.celdasJuego.Where(celda => !celda.Atacada).ToList();
@@ -284,54 +281,47 @@ namespace BatallaNaval.Controladores
                 return (celda, panelCelda, "");
             }
 
-
-
             // si el ultimo ataque tiene barco
             else
             {
-                Celda celdaProbar = null;
-                Panel panelCelda = null;
+                Celda? celdaProbar = null;
+                Panel? panelCelda = null;
 
-                //string[] direcciones = { "derecha", "izquierda", "abajo", "arriba" };
 
-                // Intenta hasta 4 direcciones
-                //foreach (string direccion in direcciones)
-                //{
-                    bool encontrada = false;
-                    if (!encontrada && direccionBuscar == "derecha")
-                    {
-                        celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila && !c.Atacada && c.Columna == ultimaAtacada.Columna + 1);
-                        encontrada = true;
-                    }
+                bool encontrada = false;
+                if (!encontrada && direccionBuscar == "derecha")
+                {
+                    celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila && !c.Atacada && c.Columna == ultimaAtacada.Columna + 1);
+                    encontrada = true;
+                }
 
-                    if (!encontrada && direccionBuscar == "abajo")
-                    {
-                        celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila + 1 && !c.Atacada && c.Columna == ultimaAtacada.Columna);
-                        encontrada = true;
-                    }
+                if (!encontrada && direccionBuscar == "abajo")
+                {
+                    celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila + 1 && !c.Atacada && c.Columna == ultimaAtacada.Columna);
+                    encontrada = true;
+                }
 
-                    if (!encontrada && direccionBuscar == "izquierda")
-                    {
-                        celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila && !c.Atacada && c.Columna == ultimaAtacada.Columna - 1);
-                        encontrada = true;
-                    }
+                if (!encontrada && direccionBuscar == "izquierda")
+                {
+                    celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila && !c.Atacada && c.Columna == ultimaAtacada.Columna - 1);
+                    encontrada = true;
+                }
 
-                    if (!encontrada && direccionBuscar == "arriba")
-                    {
-                        celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila - 1 && !c.Atacada && c.Columna == ultimaAtacada.Columna);
-                        encontrada = true;
-                    }
+                if (!encontrada && direccionBuscar == "arriba")
+                {
+                    celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila - 1 && !c.Atacada && c.Columna == ultimaAtacada.Columna);
+                    encontrada = true;
+                }
 
-                    // la celda no tenia barco
 
-                //}
-                
+
                 if (celdaProbar != null)
                 {
                     if (!celdaProbar.ContieneBarco)
                     {
                         panelCelda = Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaProbar)];
-                        return (celdaProbar, panelCelda, ProximaDireccion(direccionBuscar));
+                        string dir = ProximaDireccion(direccionBuscar);
+                        return (celdaProbar, panelCelda, dir);
                     }
                     else
                     {
@@ -345,13 +335,10 @@ namespace BatallaNaval.Controladores
                     Random r = new();
                     List<Celda> listaCeldas = Main.celdasJuego.Where(celda => !celda.Atacada).ToList();
                     Celda celda = listaCeldas[r.Next(listaCeldas.Count)];
-                    Panel panl = Main.celdasPosicion.First(panel => (int)panel.Tag == celda.Id);
-                    return (celda, panl, "");
+                    Panel panel = Main.celdasPosicion.First(p => (int)p.Tag == celda.Id);
+                    return (celda, panel, "");
                 }
             }
-
-
-
         }
 
         static void CrearImagenFuego(Main form, Panel panelCelda, PictureBox barcoImg)

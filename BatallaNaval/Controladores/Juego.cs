@@ -40,6 +40,7 @@ namespace BatallaNaval.Controladores
 
             if (numeroAtacadasCorrecta >= numeroCeldasParaGanar)
             {
+                //MessageBox.Show(numeroAtacadasCorrecta + " " + celdasAtacadas.Count);
                 return true;
             }
             return false;
