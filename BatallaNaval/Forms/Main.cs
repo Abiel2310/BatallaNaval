@@ -28,9 +28,19 @@ namespace BatallaNaval
 
         public Main()
         {
-            InitializeComponent();
-            this.KeyPreview = true;
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
+            // para que se carguen los componentes bien, hacemos un doble buffer. Se crea un buffer que el usuario no ve, 
+            // se dibujan todos los graficos ahi, y despues se copia a la pantalla. De esta forma todo carga instantaneamente
+            InitializeComponent();
+            InicializarDoubleBuffering();
+            InicializarComponentes();
+
+            this.KeyPreview = true;
+        }
+
+        private void InicializarComponentes()
+        {
             gridJuego.Controls.Clear();
             gridEnemigo.Controls.Clear();
 
@@ -182,8 +192,29 @@ namespace BatallaNaval
 
                 barcoInTablero.Click += (s, args) => Barcos.SeleccionarBarco(s, args, barco, instruccionesLabel, gridJuego, panelSeleccion, pb, btnRotar);
             }
+
         }
 
+        private void InicializarDoubleBuffering()
+        {
+            // Habilitar double buffering para todos los controles
+            HabilitarDoubleBuffering(this);
+        }
+
+        private void HabilitarDoubleBuffering(Control control)
+        {
+            // Habilitar double buffering para el control
+            control.GetType().GetProperty("DoubleBuffered",
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic)
+                ?.SetValue(control, true, null);
+
+            // Aplicar a todos los componentes recursivamente
+            foreach (Control child in control.Controls)
+            {
+                HabilitarDoubleBuffering(child);
+            }
+        }
         private void ClickCeldaEnemigo(object sender, EventArgs e, Celda celda, Panel p, List<PictureBox> barcosEnTablero)
         {
             if (!Computadora.computadoraJugando && JuegoEmpezado && !celda.Atacada)
@@ -323,5 +354,7 @@ namespace BatallaNaval
         {
             ResetGameState();
         }
+
+
     }
 }

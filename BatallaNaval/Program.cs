@@ -18,5 +18,6 @@ namespace BatallaNaval
             //inicio.Show();
             Application.Run(new Inicio());
         }
+
     }
 }

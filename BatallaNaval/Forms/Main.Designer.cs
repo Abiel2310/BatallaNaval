@@ -103,9 +103,10 @@
             instruccionesLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             instruccionesLabel.Location = new Point(16, 11);
             instruccionesLabel.Name = "instruccionesLabel";
-            instruccionesLabel.Size = new Size(294, 20);
+            instruccionesLabel.Size = new Size(305, 25);
             instruccionesLabel.TabIndex = 4;
             instruccionesLabel.Text = "Haga click en un barco para seleccionarlo";
+            instruccionesLabel.UseCompatibleTextRendering = true;
             // 
             // panelSeleccion
             // 
@@ -141,9 +142,10 @@
             textoInstruccion.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textoInstruccion.Location = new Point(0, 12);
             textoInstruccion.Name = "textoInstruccion";
-            textoInstruccion.Size = new Size(51, 20);
+            textoInstruccion.Size = new Size(49, 25);
             textoInstruccion.TabIndex = 0;
             textoInstruccion.Text = "label2";
+            textoInstruccion.UseCompatibleTextRendering = true;
             // 
             // scMain
             // 
@@ -319,9 +321,10 @@
             label1.ForeColor = Color.Black;
             label1.Location = new Point(17, 9);
             label1.Name = "label1";
-            label1.Size = new Size(277, 35);
+            label1.Size = new Size(284, 44);
             label1.TabIndex = 2;
             label1.Text = "Naves de contrincante";
+            label1.UseCompatibleTextRendering = true;
             // 
             // Main
             // 
