@@ -297,30 +297,30 @@ namespace BatallaNaval.Controladores
                 if (!encontrada && direccionBuscar == "derecha")
                 {
                     celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila && !c.Atacada && c.Columna == ultimaAtacada.Columna + 1);
-                    encontrada = true;
+                    if (celdaProbar != null) encontrada = true;
                 }
 
-                if (!encontrada && direccionBuscar == "abajo")
+                if (!encontrada && (direccionBuscar == "abajo" || celdaProbar == null))
                 {
                     celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila + 1 && !c.Atacada && c.Columna == ultimaAtacada.Columna);
-                    encontrada = true;
+                    if (celdaProbar != null) encontrada = true;
                 }
 
-                if (!encontrada && direccionBuscar == "izquierda")
+                if (!encontrada && (direccionBuscar == "izquierda" || celdaProbar == null))
                 {
                     celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila && !c.Atacada && c.Columna == ultimaAtacada.Columna - 1);
-                    encontrada = true;
+                    if (celdaProbar != null) encontrada = true;
                 }
 
-                if (!encontrada && direccionBuscar == "arriba")
+                if (!encontrada && (direccionBuscar == "arriba" || celdaProbar == null))
                 {
                     celdaProbar = Main.celdasJuego.FirstOrDefault(c => c.Fila == ultimaAtacada.Fila - 1 && !c.Atacada && c.Columna == ultimaAtacada.Columna);
-                    encontrada = true;
+                    if (celdaProbar != null) encontrada = true;
                 }
 
 
-
-                if (celdaProbar != null)
+                // se encontro una celula
+                if (encontrada)
                 {
                     if (!celdaProbar.ContieneBarco)
                     {

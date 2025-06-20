@@ -279,7 +279,6 @@ namespace BatallaNaval
         {
             if (MoviendoBarco)
             {
-                bool listo = false;
                 var lugar = Barcos.ElegirCelda(celda, p, this, btnRotar);
                 if (lugar.direccion == null)
                 {
@@ -292,16 +291,7 @@ namespace BatallaNaval
                 // mostrar button rotar
                 btnRotar.Visible = true;
 
-                foreach (Barco barco in barcos)
-                {
-                    if (barco.EnPosicion)
-                    {
-                        listo = true;
-                    }
-                    else listo = false;
-                }
-
-                if (listo)
+                if (barcos.All(barco => barco.EnPosicion))
                 {
                     empezarJuegoBtn.Visible = true;
                 }
