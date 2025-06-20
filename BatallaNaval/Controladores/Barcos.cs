@@ -175,7 +175,7 @@ namespace BatallaNaval.Controladores
                 var buscarPosicion = lista[nextIndex];
                 var result = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
 
-                if (estaRotando && !turnoPc)
+                if (estaRotando && !turnoPc && result.Item2 != null)
                 {
                     // rotar imagen
                     barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -303,6 +303,7 @@ namespace BatallaNaval.Controladores
                     return;
                 }
             }
+            
             // eliminar el barco
             if (barcoImg.Parent != null)
                 barcoImg.Parent.Controls.Remove(barcoImg);
@@ -333,10 +334,7 @@ namespace BatallaNaval.Controladores
                 barcoImg.Image = nuevaImagen;
                 barcoImg.Refresh();
             }
-            //if (rotando && barcoImg.Tag is Image originalImg)
-            //{
 
-            //}
             // poner la posicion de la ultima celda del barco
             switch (dir)
             {
