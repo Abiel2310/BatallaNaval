@@ -195,7 +195,7 @@ namespace BatallaNaval
                     celdasAtacadasJugador.Add(celda);
 
                     // fijarse si se hundio el barco completo
-                    if (seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
+                    if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
                     {
                         seleccion.barcoAtacado.Hundido = true;
                     }
@@ -208,7 +208,7 @@ namespace BatallaNaval
                 p.Cursor = Cursors.Default;
                 celda.Atacada = true;
 
-                if (Juego.VerificarFin(celdasAtacadasJugador))
+                if (Juego.VerificarFin(celdasAtacadasJugador, Main.barcosEnemigo))
                 {
                     MessageBox.Show("GANO EL JUEGO!!");
                     ResetGameState();
@@ -322,8 +322,6 @@ namespace BatallaNaval
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             ResetGameState();
-            //Computadora.ResetState();
-            //Barcos.ResetState();
         }
     }
 }

@@ -11,6 +11,8 @@ namespace BatallaNaval.Controladores
     {
         public static (bool contieneBarco, Barco? barcoAtacado, PictureBox? barcoImg) HacerSeleccion(Celda celda, List<PictureBox> imagenesBarco, bool turnoPc = false)
         {
+            celda.Atacada = true;
+
             if (celda.ContieneBarco)
             {
                 List<Barco> listaBarcos = turnoPc ? Main.barcos : Main.barcosEnemigo;
@@ -28,13 +30,15 @@ namespace BatallaNaval.Controladores
             return (false, null, null);
         }
 
-        public static bool VerificarFin(List<Celda> celdasAtacadas)
+        public static bool VerificarFin(List<Celda> celdasAtacadas, List<Barco> barcosObjetivo)
         {
-            int numeroCeldasParaGanar = Main.barcos.Sum(barco => barco.CantidadCeldas);
-
-            int numeroAtacadasCorrecta = celdasAtacadas.Count(c => c.ContieneBarco);
-
-            return numeroAtacadasCorrecta >= numeroCeldasParaGanar;
+            int totalShipCells = barcosObjetivo.Sum(barco => barco.CantidadCeldas);
+            int actualHits = celdasAtacadas.Count(c => c.ContieneBarco);
+            if (actualHits >= totalShipCells)
+            {
+                MessageBox.Show(actualHits + " " + totalShipCells);
+            }
+            return actualHits >= totalShipCells;
         }
     }
 }

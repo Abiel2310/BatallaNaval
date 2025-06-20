@@ -95,7 +95,7 @@ namespace BatallaNaval.Controladores
                 CrearImagenAgua(form, seleccionComputadora.panelCelda);
             }
 
-            seleccionComputadora.celdaElegida.Atacada = true;
+            //seleccionComputadora.celdaElegida.Atacada = true;
 
             // fijarse si se hundio el barco completo
             if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
@@ -109,7 +109,7 @@ namespace BatallaNaval.Controladores
             computadoraJugando = false;
 
             // verificar fin de juego
-            if (Juego.VerificarFin(Main.celdasAtacadasEnemigo))
+            if (Juego.VerificarFin(Main.celdasAtacadasEnemigo, Main.barcos))
             {
                 //MessageBox.Show
                 return true;
