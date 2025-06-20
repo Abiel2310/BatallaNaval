@@ -30,15 +30,9 @@ namespace BatallaNaval.Controladores
             return (false, null, null);
         }
 
-        public static bool VerificarFin(List<Celda> celdasAtacadas, List<Barco> barcosObjetivo)
+        public static bool VerificarFin(List<Barco> barcos)
         {
-            int totalShipCells = barcosObjetivo.Sum(barco => barco.CantidadCeldas);
-            int actualHits = celdasAtacadas.Count(c => c.ContieneBarco);
-            if (actualHits >= totalShipCells)
-            {
-                MessageBox.Show(actualHits + " " + totalShipCells);
-            }
-            return actualHits >= totalShipCells;
+            return barcos.All(barco => barco.Hundido);
         }
     }
 }

@@ -208,7 +208,7 @@ namespace BatallaNaval
                 p.Cursor = Cursors.Default;
                 celda.Atacada = true;
 
-                if (Juego.VerificarFin(celdasAtacadasJugador, Main.barcosEnemigo))
+                if (Juego.VerificarFin(barcosEnemigo))
                 {
                     MessageBox.Show("GANO EL JUEGO!!");
                     ResetGameState();

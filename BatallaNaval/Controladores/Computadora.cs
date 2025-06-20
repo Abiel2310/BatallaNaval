@@ -88,6 +88,12 @@ namespace BatallaNaval.Controladores
                 CrearImagenFuego(form, seleccionComputadora.panelCelda, seleccion.barcoImg);
 
                 Main.celdasAtacadasEnemigo.Add(seleccionComputadora.celdaElegida);
+                //string s = "";
+                //foreach(Celda c in Main.celdasAtacadasEnemigo)
+                //{
+                //    s += $"a({c.Fila + 1},{c.Columna + 1}) ";
+                //}
+                //MessageBox.Show(s);
                 ultimoBarcoAtacado = seleccion.barcoAtacado;
             }
             else
@@ -109,12 +115,7 @@ namespace BatallaNaval.Controladores
             computadoraJugando = false;
 
             // verificar fin de juego
-            if (Juego.VerificarFin(Main.celdasAtacadasEnemigo, Main.barcos))
-            {
-                //MessageBox.Show
-                return true;
-            }
-            return false;
+            return Juego.VerificarFin(Main.barcos);
         }
 
 
