@@ -157,36 +157,31 @@ namespace BatallaNaval.Controladores
             int currentIndex = Array.IndexOf(direcciones, barcoSeleccionado.Direccion);
             bool estaRotando = !string.IsNullOrEmpty(dirOmitir);
 
-            List<Celda> listaCeldas = [];
+            List<Celda> listaCeldas = turnoPc ? Main.celdasEnemigo : Main.celdasJuego;
 
-            if (turnoPc)
+            for (int i = 0; i < 4; i++)
             {
-                listaCeldas = Main.celdasEnemigo;
-            } else listaCeldas = Main.celdasJuego;
+                int nextIndex = (currentIndex + i) % 4;
+                string direccionAProbar = direcciones[nextIndex];
 
-            for (int offset = 0; offset < 4; offset++)
-            {
-                int nextIndex = (currentIndex + offset) % 4;
-                string tryDir = direcciones[nextIndex];
-
-                if (tryDir == dirOmitir)
+                if (direccionAProbar == dirOmitir)
                     continue;
 
                 var buscarPosicion = lista[nextIndex];
-                var result = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
+                var resultadoPosicion = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
 
-                if (estaRotando && !turnoPc && result.Item2 != null)
+                if (estaRotando && !turnoPc && resultadoPosicion.Item2 != null)
                 {
                     // rotar imagen
                     barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     barcoImg.Refresh();
                 }
 
-                if (result.Item2 != null)
+                if (resultadoPosicion.Item2 != null)
                 {
                     lugarEncontrado = true;
-                    direccion = result.Item2;
-                    celdasAOcupar = result.Item1;
+                    direccion = resultadoPosicion.Item2;
+                    celdasAOcupar = resultadoPosicion.Item1;
                     break;
                 }
 
@@ -199,6 +194,7 @@ namespace BatallaNaval.Controladores
 
         static (List<Celda>? celdasOcupar, string? direccion) BuscarDerecha(Celda celda, int cantidadCeldas, string dirOmitir, List<Celda> listaCeldas)
         {
+            // se busca una posicion a la derecha de la celda en la que se hizo click
             Celda? celdaDerecha = listaCeldas.FirstOrDefault(c => c.Columna == celda.Columna + (cantidadCeldas - 1) && celda.Fila == c.Fila);
 
             if (celdaDerecha != null && dirOmitir != "derecha")
@@ -287,7 +283,7 @@ namespace BatallaNaval.Controladores
 
         public static void PosicionarBarco(string dir, Celda celdaInicio, Main form, Panel p, bool rotando = false)
         {
-            // Add null check before accessing barcoImg
+            // Verificar que no sea nulo
             if (barcoImg == null)
             {
                 // Handle computer ships differently (no visual representation needed)
@@ -350,6 +346,12 @@ namespace BatallaNaval.Controladores
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
                         Point pos = form.PointToClient(posIzq);
+                        // cambiar el tamano del barco mas chiquito
+                        if (barcoSeleccionado.Id == 5)
+                        {
+                            pos.X += 10;
+                            barcoImg.Width = p.Width - 20;
+                        }
 
                         barcoImg.Location = pos;
 
@@ -368,15 +370,36 @@ namespace BatallaNaval.Controladores
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
                         Point pos = form.PointToClient(posIzq);
+                        // cambiar el tamano del barco mas chiquito
+                        if (barcoSeleccionado.Id == 5)
+                        {
+                            pos.Y += 10;
+                            barcoImg.Height = p.Height - 20;
+                        }
 
                         barcoImg.Location = pos;
                         barcoImg.Refresh();
                         break;
                     }
+               
                 case "abajo":
                     {
                         barcoImg.Width = p.Width;
                         barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
+
+                        int num = barcoSeleccionado.CantidadCeldas - 1;
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
+
+                        Point posIzq = p1.PointToScreen(Point.Empty);
+                        Point pos = form.PointToClient(posIzq);
+                        // cambiar el tamano del barco mas chiquito
+                        if (barcoSeleccionado.Id == 5)
+                        {
+                            pos.X += 10;
+                            barcoImg.Width = p.Width - 20;
+                            barcoImg.Location = pos;
+                        }
                         barcoImg.Refresh();
                         break;
                     }
@@ -384,10 +407,26 @@ namespace BatallaNaval.Controladores
                     {
                         barcoImg.Height = p.Height;
                         barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
+
+                        int num = barcoSeleccionado.CantidadCeldas - 1;
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
+
+                        Point posIzq = p1.PointToScreen(Point.Empty);
+                        Point pos = form.PointToClient(posIzq);
+
+                        // cambiar el tamano del barco mas chiquito
+                        if (barcoSeleccionado.Id == 5)
+                        {
+                            pos.Y += 10;
+                            barcoImg.Height = p.Height - 20;
+                            barcoImg.Location = pos;
+                        }
                         barcoImg.Refresh();
                         break;
                     };
             }
+
 
             // agregar el barco 
             form.Controls.Add(barcoImg);
