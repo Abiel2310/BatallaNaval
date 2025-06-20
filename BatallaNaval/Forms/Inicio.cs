@@ -14,10 +14,35 @@ namespace BatallaNaval.Forms
     {
         public Inicio()
         {
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+
             InitializeComponent();
+            InicializarDoubleBuffering();
 
             PantallaInicio();
         }
+
+        private void InicializarDoubleBuffering()
+        {
+            // Habilitar double buffering para todos los controles
+            HabilitarDoubleBuffering(this);
+        }
+
+        private void HabilitarDoubleBuffering(Control control)
+        {
+            // Habilitar double buffering para el control
+            control.GetType().GetProperty("DoubleBuffered",
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic)
+                ?.SetValue(control, true, null);
+
+            // Aplicar a todos los componentes recursivamente
+            foreach (Control child in control.Controls)
+            {
+                HabilitarDoubleBuffering(child);
+            }
+        }
+       
         private void PantallaInicio()
         {
             Label header = new()
@@ -35,7 +60,7 @@ namespace BatallaNaval.Forms
 
             Button btnInicio = new()
             {
-                Text = "Jugador v jugador",
+                Text = "Practica",
                 Font = new Font("Segoe UI Semibold", 9),
                 Width = 200,
                 Height = 40,
