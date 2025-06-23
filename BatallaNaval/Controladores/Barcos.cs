@@ -409,7 +409,12 @@ namespace BatallaNaval.Controladores
                         barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
 
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio)];
+
+                        if (Main.celdasJuego.IndexOf(celdaInicio) - num >= 0)
+                        {
+                            c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        }
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
