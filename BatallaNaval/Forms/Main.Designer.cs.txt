@@ -1,6 +1,4 @@
-﻿using EnvDTE;
-
-namespace BatallaNaval
+﻿namespace BatallaNaval
 {
     partial class Main
     {

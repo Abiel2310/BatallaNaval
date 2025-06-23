@@ -20,32 +20,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\agua.png" />
-    <EmbeddedResource Include="Resources\background.jpg" />
-    <EmbeddedResource Include="Resources\explosion.png" />
-    <EmbeddedResource Include="Resources\ShipBattleshipHull.png" />
-    <EmbeddedResource Include="Resources\ShipCarrierHull.png" />
-    <EmbeddedResource Include="Resources\ShipCruiserHull.png" />
-    <EmbeddedResource Include="Resources\ShipDestroyerHull.png" />
-    <EmbeddedResource Include="Resources\ShipPatrolHull.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Designer.Interfaces" Version="17.14.40260" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <Resource Include="Resources\agua.png" />
+    <Resource Include="Resources\background.jpg" />
+    <Resource Include="Resources\explosion.png" />
+    <Resource Include="Resources\ShipBattleshipHull.png" />
+    <Resource Include="Resources\ShipCarrierHull.png" />
+    <Resource Include="Resources\ShipCruiserHull.png" />
+    <Resource Include="Resources\ShipDestroyerHull.png" />
+    <Resource Include="Resources\ShipPatrolHull.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
