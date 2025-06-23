@@ -72,6 +72,7 @@ namespace BatallaNaval.Forms
 
             btnInicio.Left = (this.Width / 2) - (btnInicio.Width / 2);
             btnInicio.Top = (this.Height / 2) - (btnInicio.Height) - header.Height;
+            btnInicio.Click += btnInicio_Click;
 
             Button btnJuegoPC = new()
             {
@@ -100,6 +101,13 @@ namespace BatallaNaval.Forms
             Main mainForm = new Main();
             mainForm.FormClosed += (sender, args) => this.Show();
             mainForm.Show();
+        }
+        private void btnInicio_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Practica practicaForm = new Practica();
+            practicaForm.FormClosed += (sender, args) => this.Show();
+            practicaForm.Show();
         }
 
     }
