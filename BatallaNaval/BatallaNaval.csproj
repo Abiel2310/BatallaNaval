@@ -9,28 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\agua.png" />
-    <None Remove="Resources\background.jpg" />
-    <None Remove="Resources\explosion.png" />
-    <None Remove="Resources\ShipBattleshipHull.png" />
-    <None Remove="Resources\ShipCarrierHull.png" />
-    <None Remove="Resources\ShipCruiserHull.png" />
-    <None Remove="Resources\ShipDestroyerHull.png" />
-    <None Remove="Resources\ShipPatrolHull.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\agua.png" />
-    <EmbeddedResource Include="Resources\background.jpg" />
-    <EmbeddedResource Include="Resources\explosion.png" />
-    <EmbeddedResource Include="Resources\ShipBattleshipHull.png" />
-    <EmbeddedResource Include="Resources\ShipCarrierHull.png" />
-    <EmbeddedResource Include="Resources\ShipCruiserHull.png" />
-    <EmbeddedResource Include="Resources\ShipDestroyerHull.png" />
-    <EmbeddedResource Include="Resources\ShipPatrolHull.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Designer.Interfaces" Version="17.14.40260" />
   </ItemGroup>
 

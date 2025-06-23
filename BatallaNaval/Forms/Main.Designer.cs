@@ -335,7 +335,7 @@
             ClientSize = new Size(1079, 609);
             Controls.Add(panelInicio);
             Name = "Main";
-            Text = "Form1";
+            Text = "Batalla Naval - Computadora";
             FormClosing += Main_FormClosing;
             panelInicio.ResumeLayout(false);
             panelJuego.ResumeLayout(false);
