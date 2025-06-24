@@ -4,6 +4,9 @@
     <Compile Update="Forms\Autentificacion.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Practica.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\RegistroForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -14,9 +17,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\Practica.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
