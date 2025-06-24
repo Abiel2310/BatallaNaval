@@ -22,6 +22,8 @@ namespace BatallaNaval.Forms
             InitializeComponent();
             InicializarDoubleBuffering();
             PantallaInicio();
+
+            //this.FormClosed
         }
 
         private void InicializarDoubleBuffering()
@@ -170,6 +172,8 @@ namespace BatallaNaval.Forms
         {
             this.Close();
             Main mainForm = new Main();
+
+
             mainForm.Show();
         }
         private void btnInicio_Click()

@@ -28,12 +28,7 @@ namespace BatallaNaval.Controladores
             int indiceCeldaInicio = Main.celdasJuego.IndexOf(celdaInicio);
             Panel p = (Panel)Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaInicio)];
 
-            // resetear las celdas
-            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
-            {
-                cld.ContieneBarco = false;
-                cld.BarcoId = 0;
-            }
+            
 
             var posicion = EncontrarPosicion(celdaInicio, cantidadCeldas, barcoSeleccionado.Direccion);
 
@@ -41,6 +36,13 @@ namespace BatallaNaval.Controladores
             {
                 MessageBox.Show("No se puede rotar");
                 return;
+            }
+
+            // resetear las celdas
+            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
+            {
+                cld.ContieneBarco = false;
+                cld.BarcoId = 0;
             }
 
             barcoSeleccionado.CeldasPosicion = posicion.celdas;
@@ -153,7 +155,7 @@ namespace BatallaNaval.Controladores
             List<Func<Celda, int, string, List<Celda>, (List<Celda>?, string?)>> lista = [BuscarDerecha, BuscarAbajo, BuscarIzquierda, BuscarArriba];
             var listaPosicionesBuscar = barcoSeleccionado.OrdenRotacion.Select(i => lista[i]).ToList();
 
-            string[] direcciones = { "derecha", "abajo", "izquierda", "arriba" };
+            string[] direcciones = ["derecha", "abajo", "izquierda", "arriba"];
             int currentIndex = Array.IndexOf(direcciones, barcoSeleccionado.Direccion);
             bool estaRotando = !string.IsNullOrEmpty(dirOmitir);
 
@@ -170,11 +172,18 @@ namespace BatallaNaval.Controladores
                 var buscarPosicion = lista[nextIndex];
                 var resultadoPosicion = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
 
-                if (estaRotando && !turnoPc && resultadoPosicion.Item2 != null)
+                if (estaRotando && !turnoPc)
                 {
+                    if (resultadoPosicion.Item2 == null && i == 3)
+                    {
+
+                    }
+                    else
+                    {
+                        barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        barcoImg.Refresh();
+                    }
                     // rotar imagen
-                    barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    barcoImg.Refresh();
                 }
 
                 if (resultadoPosicion.Item2 != null)
@@ -341,7 +350,7 @@ namespace BatallaNaval.Controladores
 
                         // conseguir el punto mas arriba??
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (Program.tamano * num)];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - ((Program.tamano) * num)];
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
@@ -388,7 +397,8 @@ namespace BatallaNaval.Controladores
                         barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
 
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) + ((Program.tamano) * num)];
+
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
@@ -409,7 +419,7 @@ namespace BatallaNaval.Controladores
                         barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
 
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) + num];
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);

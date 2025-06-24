@@ -33,7 +33,8 @@ namespace BatallaNaval.Forms
 
             Program.loggedIn = true;
             Program.usuarioActual = u;
-            this.DialogResult = DialogResult.OK;
+
+            //this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }
