@@ -191,7 +191,7 @@
             {
                 gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             }
-            gridJuego.Size = new Size(521, 519);
+            gridJuego.Size = new Size(((1097 / 10) * Program.tamano), ((656 / 10) * Program.tamano));
             gridJuego.TabIndex = 0;
             // 
             // empezarJuegoBtn
@@ -285,7 +285,7 @@
             {
                 gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             }
-            gridEnemigo.Size = new Size(223, 224);
+            gridEnemigo.Size = new Size(((223 / 10) * Program.tamano), ((224 / 10) * Program.tamano));
             gridEnemigo.TabIndex = 1;
             // 
             // label1

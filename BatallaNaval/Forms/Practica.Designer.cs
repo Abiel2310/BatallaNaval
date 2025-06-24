@@ -63,7 +63,7 @@
             gridPractica.Anchor = AnchorStyles.Left;
             gridPractica.BackColor = SystemColors.ActiveCaption;
             gridPractica.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
-            gridPractica.ColumnCount = 10;
+            gridPractica.ColumnCount = Program.tamano;
             gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
@@ -76,7 +76,7 @@
             gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             gridPractica.Location = new Point(159, 74);
             gridPractica.Name = "gridPractica";
-            gridPractica.RowCount = 10;
+            gridPractica.RowCount = Program.tamano;
             gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));

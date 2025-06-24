@@ -341,7 +341,7 @@ namespace BatallaNaval.Controladores
 
                         // conseguir el punto mas arriba??
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (10 * num)];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (Program.tamano * num)];
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
