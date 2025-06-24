@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            gridJuego = new TableLayoutPanel();
             label1 = new Label();
+            gridPractica = new TableLayoutPanel();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -38,43 +38,11 @@
             // 
             panel1.BackColor = SystemColors.GradientActiveCaption;
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(gridJuego);
+            panel1.Controls.Add(gridPractica);
             panel1.Location = new Point(97, 21);
             panel1.Name = "panel1";
             panel1.Size = new Size(833, 613);
             panel1.TabIndex = 0;
-            // 
-            // gridJuego
-            // 
-            gridJuego.Anchor = AnchorStyles.Left;
-            gridJuego.BackColor = SystemColors.ActiveCaption;
-            gridJuego.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
-            gridJuego.ColumnCount = 10;
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            gridJuego.Location = new Point(159, 74);
-            gridJuego.Name = "gridJuego";
-            gridJuego.RowCount = 10;
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            gridJuego.Size = new Size(521, 519);
-            gridJuego.TabIndex = 1;
             // 
             // label1
             // 
@@ -90,6 +58,38 @@
             label1.Text = "Naves de contrincante";
             label1.UseCompatibleTextRendering = true;
             // 
+            // gridPractica
+            // 
+            gridPractica.Anchor = AnchorStyles.Left;
+            gridPractica.BackColor = SystemColors.ActiveCaption;
+            gridPractica.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
+            gridPractica.ColumnCount = 10;
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridPractica.Location = new Point(159, 74);
+            gridPractica.Name = "gridPractica";
+            gridPractica.RowCount = 10;
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridPractica.Size = new Size(521, 519);
+            gridPractica.TabIndex = 1;
+            // 
             // Practica
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -99,7 +99,7 @@
             ClientSize = new Size(1020, 646);
             Controls.Add(panel1);
             Name = "Practica";
-            Text = "Practica";
+            Text = " ";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -108,7 +108,7 @@
         #endregion
 
         private Panel panel1;
-        private TableLayoutPanel gridJuego;
+        private TableLayoutPanel gridPractica;
         private Label label1;
     }
 }
