@@ -4,6 +4,9 @@
     <Compile Update="Forms\Autentificacion.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\CargarPartida.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\Practica.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -90,11 +90,17 @@ namespace BatallaNaval.Forms
 
             btnJuegoPC.Left = (this.Width / 2) - (btnJuegoPC.Width / 2);
             btnJuegoPC.Top = btnInicio.Bottom + 10;
-            btnJuegoPC.Click += Configuracion;
+            btnJuegoPC.Click += CargarPartida;
 
             panelInicio.Controls.Add(header);
             panelInicio.Controls.Add(btnInicio);
             panelInicio.Controls.Add(btnJuegoPC);
+        }
+        private void CargarPartida(object sender, EventArgs e) 
+        {
+            this.Hide();
+            CargarPartida cargarPartidaForm = new CargarPartida();
+            cargarPartidaForm.Show();
         }
         private void Configuracion(object sender, EventArgs e)
         {
