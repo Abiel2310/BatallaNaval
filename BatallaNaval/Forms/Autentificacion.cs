@@ -76,6 +76,20 @@ namespace BatallaNaval.Forms
             };
             btnRegister.Click += (s, e) => MostrarFormularioRegistro();
             panelAuth.Controls.Add(btnRegister);
+
+            Button btnSalir = new()
+            {
+                Text = "Salir",
+                Font = new Font("Segoe UI Semibold", 10),
+                Width = 200,
+                Height = 40,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                Top = 270,
+                Left = (this.Width / 2) - 100,
+            };
+            btnSalir.Click += (s, e) => Program.Salir();
+            panelAuth.Controls.Add(btnSalir);
         }
 
         private void MostrarFormularioLogin()
