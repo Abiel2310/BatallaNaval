@@ -93,9 +93,14 @@ namespace BatallaNaval.Controladores
             else
             {
                 CrearImagenAgua(form, seleccionComputadora.panelCelda);
-            }
 
-            //seleccionComputadora.celdaElegida.Atacada = true;
+                if (ultimoBarcoAtacado?.Hundido != true)
+                {
+                    ultimaAtacada = null;
+                    ultimoBarcoAtacado = null;
+                    proximaDireccionBuscar = "derecha";
+                }
+            }
 
             // fijarse si se hundio el barco completo
             if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))

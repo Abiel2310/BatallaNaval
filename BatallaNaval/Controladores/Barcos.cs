@@ -113,7 +113,7 @@ namespace BatallaNaval.Controladores
 
         }
 
-        public static (Barco? barco, string? direccion) ElegirCelda(Celda celda, Panel celdaPos, Main form, Button btnRotar, Barco barcoPc=null)
+        public static (Barco? barco, string? direccion) ElegirCelda(Celda celda, Panel celdaPos, Main form, Button btnRotar, Barco barcoPc = null)
         {
             if (barcoPc != null)
             {
@@ -121,7 +121,7 @@ namespace BatallaNaval.Controladores
             }
             int cantidadCeldas = barcoSeleccionado.CantidadCeldas;
 
-            // resetea las celdas
+            // Reset previous cells
             if (barcoSeleccionado.CeldasPosicion != null)
             {
                 foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
@@ -131,12 +131,25 @@ namespace BatallaNaval.Controladores
                 }
             }
 
-            var posicion = EncontrarPosicion(celda, cantidadCeldas, "", (barcoPc != null) ? true : false);
-            if (posicion.direccion == null) return (null, null);
+            // Find valid position
+            var posicion = EncontrarPosicion(celda, cantidadCeldas, "", (barcoPc != null));
+            if (posicion.direccion == null)
+            {
+                MessageBox.Show("No se puede colocar aquí - espacio ocupado o fuera de límites");
+                return (null, null);
+            }
+
+            // Validate position isn't occupied
+            if (posicion.celdas.Any(c => c.ContieneBarco))
+            {
+                MessageBox.Show("No se puede colocar aquí - espacio ocupado");
+                return (null, null);
+            }
 
             barcoSeleccionado.CeldasPosicion = posicion.celdas;
             string direccion = posicion.direccion;
 
+            // Set ship position
             foreach (Celda celdaAOcupar in barcoSeleccionado.CeldasPosicion)
             {
                 celdaAOcupar.ContieneBarco = true;
@@ -149,7 +162,6 @@ namespace BatallaNaval.Controladores
 
             return (barcoSeleccionado, direccion);
         }
-
         public static (List<Celda> celdas, string direccion) EncontrarPosicion(Celda celda, int cantidadCeldas, string dirOmitir = "", bool turnoPc = false)
         {
             bool lugarEncontrado = false;

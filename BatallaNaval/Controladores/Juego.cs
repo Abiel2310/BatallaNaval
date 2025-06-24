@@ -13,11 +13,11 @@ namespace BatallaNaval.Controladores
         {
             celda.Atacada = true;
 
-            if (celda.ContieneBarco)
+            if (celda.ContieneBarco && celda.BarcoId > 0)
             {
                 List<Barco> listaBarcos = turnoPc ? Main.barcos : Main.barcosEnemigo;
                 Barco? barcoAtacado = listaBarcos.FirstOrDefault(b => b.Id == celda.BarcoId);
-                if (barcoAtacado == null)
+                if (barcoAtacado == null || barcoAtacado.CeldasPosicion == null)
                 {
                     MessageBox.Show("No se encontro el barco");
                     return (false, null, null);
