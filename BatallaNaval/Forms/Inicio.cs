@@ -101,6 +101,5 @@ namespace BatallaNaval.Forms
             mainForm.FormClosed += (sender, args) => this.Show();
             mainForm.Show();
         }
-
     }
 }
