@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BatallaNaval.Controladores;
 using BatallaNaval.Modelos;
+using EnvDTE;
 
 namespace BatallaNaval.Forms
 {
@@ -210,17 +211,19 @@ namespace BatallaNaval.Forms
                 // Verificar si todos los barcos están hundidos
                 if (barcosEnemigoPractica.All(b => b.Hundido))
                 {
-                    //MessageBox.Show("¡Has encontrado y hundido todos los barcos!");
+                    MessageBox.Show("¡Has encontrado y hundido todos los barcos!");
+                    this.Close();
                     // Cierrar la práctica o reiniciar
-                    DialogResult result = MessageBox.Show("¡Has encontrado y hundido todos los barcos! ¿Deseas reiniciar la práctica?", "Práctica finalizada", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
-                    {
-                        InicializarPractica();
-                    }
-                    else
-                    {
-                        this.Close();
-                    }
+                    //DialogResult result = MessageBox.Show("¡Has encontrado y hundido todos los barcos! ¿Deseas reiniciar la práctica?", "Práctica finalizada", MessageBoxButtons.YesNo);
+                    //if (result == DialogResult.Yes)
+                    //{
+                    //    InicializarPractica();
+
+                    //}
+                    //else
+                    //{
+                    //    this.Close();
+                    //}
                 }
             }
         }

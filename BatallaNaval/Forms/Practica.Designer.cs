@@ -1,4 +1,4 @@
-﻿namespace BatallaNaval.Forms
+﻿ namespace BatallaNaval.Forms
 {
     partial class Practica
     {
