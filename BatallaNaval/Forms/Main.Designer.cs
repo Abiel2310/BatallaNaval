@@ -38,7 +38,6 @@
             scMain = new SplitContainer();
             gridJuego = new TableLayoutPanel();
             empezarJuegoBtn = new Button();
-            btnGuardarPartida = new Button();
             barcoChiquitito = new PictureBox();
             barcoGrande = new PictureBox();
             barcoChico = new PictureBox();
@@ -164,7 +163,6 @@
             // 
             scMain.Panel2.BackColor = SystemColors.GradientActiveCaption;
             scMain.Panel2.Controls.Add(empezarJuegoBtn);
-            scMain.Panel2.Controls.Add(btnGuardarPartida);
             scMain.Panel2.Controls.Add(barcoChiquitito);
             scMain.Panel2.Controls.Add(barcoGrande);
             scMain.Panel2.Controls.Add(barcoChico);
@@ -181,19 +179,31 @@
             gridJuego.Anchor = AnchorStyles.Left;
             gridJuego.BackColor = SystemColors.ActiveCaption;
             gridJuego.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
-            gridJuego.ColumnCount = Program.tamano;
-            for (int i = 0; i < gridJuego.ColumnCount; i++)
-            {
-                gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            }
+            gridJuego.ColumnCount = 10;
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             gridJuego.Location = new Point(16, 9);
             gridJuego.Name = "gridJuego";
-            gridJuego.RowCount = Program.tamano;
-            for (int i = 0; i < gridJuego.RowCount; i++)
-            {
-                gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            }
-            gridJuego.Size = new Size(((1097 / 10) * Program.tamano), ((656 / 10) * Program.tamano));
+            gridJuego.RowCount = 10;
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            gridJuego.Size = new Size(521, 519);
             gridJuego.TabIndex = 0;
             // 
             // empezarJuegoBtn
@@ -209,20 +219,6 @@
             empezarJuegoBtn.UseVisualStyleBackColor = false;
             empezarJuegoBtn.Visible = false;
             empezarJuegoBtn.Click += empezarJuegoBtn_Click;
-            //
-            // btnGuardarPartida
-            //
-            btnGuardarPartida.Anchor = AnchorStyles.None;
-            btnGuardarPartida.BackColor = Color.Black;
-            btnGuardarPartida.ForeColor = SystemColors.Control;
-            btnGuardarPartida.Location = new Point(48, 277);
-            btnGuardarPartida.Name = "btnGuardarPartida";
-            btnGuardarPartida.Size = new Size(223, 52);
-            btnGuardarPartida.TabIndex = 8;
-            btnGuardarPartida.Text = "Guardar partida";
-            btnGuardarPartida.UseVisualStyleBackColor = false;
-            btnGuardarPartida.Visible = false;
-            btnGuardarPartida.Click += btnGuardarPartida_click;
             // 
             // barcoChiquitito
             // 
@@ -289,19 +285,31 @@
             gridEnemigo.Anchor = AnchorStyles.Right;
             gridEnemigo.BackColor = SystemColors.ActiveCaption;
             gridEnemigo.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
-            gridEnemigo.ColumnCount = Program.tamano;
-            for (int i = 0; i < gridEnemigo.ColumnCount; i++)
-            {
-                gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            }
+            gridEnemigo.ColumnCount = 10;
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             gridEnemigo.Location = new Point(48, 47);
             gridEnemigo.Name = "gridEnemigo";
-            gridEnemigo.RowCount = Program.tamano;
-            for (int i = 0; i < gridEnemigo.RowCount; i++)
-            {
-                gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            }
-            gridEnemigo.Size = new Size(((223 / 10) * Program.tamano), ((224 / 10) * Program.tamano));
+            gridEnemigo.RowCount = 10;
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            gridEnemigo.Size = new Size(223, 224);
             gridEnemigo.TabIndex = 1;
             // 
             // label1
