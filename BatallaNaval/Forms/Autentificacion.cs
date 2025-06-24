@@ -80,14 +80,26 @@ namespace BatallaNaval.Forms
 
         private void MostrarFormularioLogin()
         {
-            using (var loginForm = new LoginForm())
-            {
-                if (loginForm.ShowDialog() == DialogResult.OK)
+            LoginForm l = new LoginForm();
+            this.Hide();
+
+            l.Show();
+            l.FormClosed += (s, args) => {
+                var i = new Inicio();
+                i.Show();
+                i.FormClosed += (s, args) =>
                 {
-                    this.Hide();
-                    new Inicio().Show();
-                }
-            }
+                    this.Close();
+                };
+            };
+            //using (var loginForm = new LoginForm())
+            //{
+            //    //if (loginForm.ShowDialog() == DialogResult.OK)
+            //    {
+            //        this.Hide();
+            //        var i = new Inicio().;
+            //    }
+            //}
         }
 
         private void MostrarFormularioRegistro()

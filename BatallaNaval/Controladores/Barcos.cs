@@ -28,12 +28,7 @@ namespace BatallaNaval.Controladores
             int indiceCeldaInicio = Main.celdasJuego.IndexOf(celdaInicio);
             Panel p = (Panel)Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaInicio)];
 
-            // resetear las celdas
-            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
-            {
-                cld.ContieneBarco = false;
-                cld.BarcoId = 0;
-            }
+            
 
             var posicion = EncontrarPosicion(celdaInicio, cantidadCeldas, barcoSeleccionado.Direccion);
 
@@ -41,6 +36,13 @@ namespace BatallaNaval.Controladores
             {
                 MessageBox.Show("No se puede rotar");
                 return;
+            }
+
+            // resetear las celdas
+            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
+            {
+                cld.ContieneBarco = false;
+                cld.BarcoId = 0;
             }
 
             barcoSeleccionado.CeldasPosicion = posicion.celdas;

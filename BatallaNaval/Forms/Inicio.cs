@@ -22,6 +22,8 @@ namespace BatallaNaval.Forms
             InitializeComponent();
             InicializarDoubleBuffering();
             PantallaInicio();
+
+            //this.FormClosed
         }
 
         private void InicializarDoubleBuffering()
