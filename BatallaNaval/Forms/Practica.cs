@@ -227,8 +227,5 @@ namespace BatallaNaval.Forms
                 }
             }
         }
-
-
-
     }
 }
