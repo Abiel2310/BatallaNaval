@@ -92,14 +92,6 @@ namespace BatallaNaval.Forms
                     this.Close();
                 };
             };
-            //using (var loginForm = new LoginForm())
-            //{
-            //    //if (loginForm.ShowDialog() == DialogResult.OK)
-            //    {
-            //        this.Hide();
-            //        var i = new Inicio().;
-            //    }
-            //}
         }
 
         private void MostrarFormularioRegistro()
