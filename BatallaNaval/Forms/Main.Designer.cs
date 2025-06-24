@@ -38,6 +38,7 @@
             scMain = new SplitContainer();
             gridJuego = new TableLayoutPanel();
             empezarJuegoBtn = new Button();
+            btnGuardarPartida = new Button();
             barcoChiquitito = new PictureBox();
             barcoGrande = new PictureBox();
             barcoChico = new PictureBox();
@@ -163,6 +164,7 @@
             // 
             scMain.Panel2.BackColor = SystemColors.GradientActiveCaption;
             scMain.Panel2.Controls.Add(empezarJuegoBtn);
+            scMain.Panel2.Controls.Add(btnGuardarPartida);
             scMain.Panel2.Controls.Add(barcoChiquitito);
             scMain.Panel2.Controls.Add(barcoGrande);
             scMain.Panel2.Controls.Add(barcoChico);
@@ -207,6 +209,20 @@
             empezarJuegoBtn.UseVisualStyleBackColor = false;
             empezarJuegoBtn.Visible = false;
             empezarJuegoBtn.Click += empezarJuegoBtn_Click;
+            //
+            // btnGuardarPartida
+            //
+            btnGuardarPartida.Anchor = AnchorStyles.None;
+            btnGuardarPartida.BackColor = Color.Black;
+            btnGuardarPartida.ForeColor = SystemColors.Control;
+            btnGuardarPartida.Location = new Point(48, 277);
+            btnGuardarPartida.Name = "btnGuardarPartida";
+            btnGuardarPartida.Size = new Size(223, 52);
+            btnGuardarPartida.TabIndex = 8;
+            btnGuardarPartida.Text = "Guardar partida";
+            btnGuardarPartida.UseVisualStyleBackColor = false;
+            btnGuardarPartida.Visible = false;
+            btnGuardarPartida.Click += btnGuardarPartida_click;
             // 
             // barcoChiquitito
             // 
