@@ -174,15 +174,16 @@ namespace BatallaNaval.Forms
         }
         private void IniciarJuego()
         {
-            this.Hide();
+            this.Close();
             Main mainForm = new Main();
             mainForm.Show();
         }
         private void btnInicio_Click()
         {
-            this.Hide();
+            this.Close();
             Practica practicaForm = new Practica();
             practicaForm.Show();
+            
         }
 
     }

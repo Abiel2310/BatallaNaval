@@ -25,6 +25,8 @@ namespace BatallaNaval
 
         private List<PictureBox> barcosEnTablero = [];
 
+        Button btnGuardarPartida;
+
 
         public Main()
         {
@@ -305,6 +307,11 @@ namespace BatallaNaval
             }
             instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
 
+            btnGuardarPartida.Visible = true;
+        }
+        private void btnGuardarPartida_click(object sender, EventArgs e)
+        {
+            MessageBox.Show("fuap");
         }
 
         private void clickSeleccionCelda(object sender, EventArgs e, Celda celda, Panel p, List<Barco> barcos)
