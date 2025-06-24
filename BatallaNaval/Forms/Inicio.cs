@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BatallaNaval.Controladores;
+using BatallaNaval.PersistenciaC;
 
 namespace BatallaNaval.Forms
 {
@@ -98,9 +100,38 @@ namespace BatallaNaval.Forms
         }
         private void CargarPartida(object sender, EventArgs e) 
         {
-            this.Hide();
-            CargarPartida cargarPartidaForm = new CargarPartida();
-            cargarPartidaForm.Show();
+            //this.Hide();
+            //CargarPartida cargarPartidaForm = new CargarPartida();
+            //cargarPartidaForm.Show();
+            Button cargarPartidaButton = new Button
+            {
+                Text = "Cargar Partida",
+                Font = new Font("Segoe UI Semibold", 9),
+                Width = 200,
+                Height = 40,
+                Anchor = AnchorStyles.Top,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+            };
+            cargarPartidaButton.Location = new Point(((this.Width / 2) - (cargarPartidaButton.Width / 2)), ((this.Height / 2) - (cargarPartidaButton.Height / 2) - 50));
+            cargarPartidaButton.Click +=  Main.btnCargarPartida_Click;
+            Button NuevaPartida = new Button
+            {
+                Text = "Nueva Partida",
+                Font = new Font("Segoe UI Semibold", 9),
+                Width = 200,
+                Height = 40,
+                Anchor = AnchorStyles.Top,
+                BackColor = Color.Black,
+                ForeColor = Color.White
+            };
+            NuevaPartida.Location = new Point(((this.Width / 2) - (NuevaPartida.Width / 2)), ((this.Height / 2) - (NuevaPartida.Height / 2) - 100));
+            NuevaPartida.Click += Configuracion;
+
+            // Agregar los botones al panel
+            panelInicio.Controls.Clear();
+            panelInicio.Controls.Add(cargarPartidaButton);
+            panelInicio.Controls.Add(NuevaPartida);
         }
         private void Configuracion(object sender, EventArgs e)
         {
