@@ -85,8 +85,7 @@ namespace BatallaNaval.Forms
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
                     this.Hide();
-                    new Inicio().ShowDialog();
-                    this.Close();
+                    new Inicio().Show();
                 }
             }
         }
@@ -98,8 +97,7 @@ namespace BatallaNaval.Forms
                 if (registerForm.ShowDialog() == DialogResult.OK)
                 {
                     this.Hide();
-                    new Inicio().ShowDialog();
-                    this.Close();
+                    new Inicio().Show();
                 }
             }
         }

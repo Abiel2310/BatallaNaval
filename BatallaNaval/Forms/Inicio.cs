@@ -42,7 +42,7 @@ namespace BatallaNaval.Forms
                 HabilitarDoubleBuffering(child);
             }
         }
-       
+
         private void PantallaInicio()
         {
             Label header = new()
@@ -101,5 +101,6 @@ namespace BatallaNaval.Forms
             mainForm.FormClosed += (sender, args) => this.Show();
             mainForm.Show();
         }
+
     }
 }

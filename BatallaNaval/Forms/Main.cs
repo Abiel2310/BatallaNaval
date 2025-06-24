@@ -255,7 +255,8 @@ namespace BatallaNaval
                         this.Close();
                     }
                 }
-            };
+            }
+            ;
         }
 
         private void btnRotar_Click(object sender, EventArgs e)
@@ -315,7 +316,8 @@ namespace BatallaNaval
                 {
                     MessageBox.Show("No hay lugar");
                     return;
-                };
+                }
+                ;
 
                 Barcos.PosicionarBarco(lugar.direccion, celda, this, p);
 

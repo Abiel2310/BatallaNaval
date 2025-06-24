@@ -8,8 +8,7 @@ namespace BatallaNaval
     {
         public static bool loggedIn = false;
         public static Usuario usuarioActual = new();
-        public static int columnJugador = 10;
-        public static int rowJugador = 10;
+        public static int tamano = 0;
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -21,8 +20,6 @@ namespace BatallaNaval
             ApplicationConfiguration.Initialize();
             Conexion.OpenConnection();
             Application.Run(new Autenticacion());
-            //Inicio inicio = new();
-            //inicio.Show();
         }
     }
 }
