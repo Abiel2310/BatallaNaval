@@ -2,6 +2,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BatallaNaval.Controladores;
 using BatallaNaval.Modelos;
+using BatallaNaval.PersistenciaC;
 using EnvDTE;
 
 namespace BatallaNaval
@@ -25,6 +26,8 @@ namespace BatallaNaval
 
         private List<PictureBox> barcosEnTablero = [];
 
+        Button btnGuardarPartida;
+
 
         public Main()
         {
@@ -47,12 +50,12 @@ namespace BatallaNaval
             gridJuego.ColumnStyles.Clear();
             gridJuego.RowStyles.Clear();
 
-            gridJuego.RowCount = Program.Tamano;
-            gridJuego.ColumnCount = Program.Tamano;
+            gridJuego.RowCount = Program.tamano;
+            gridJuego.ColumnCount = Program.tamano;
 
             for (int i = 0; i < gridJuego.RowCount; i++)
             {
-                gridJuego.RowStyles.Add(new ColumnStyle(SizeType.Percent, 100f / gridJuego.RowCount));
+                gridJuego.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / gridJuego.RowCount));
             }
 
             for (int i = 0; i < gridJuego.ColumnCount; i++)
@@ -65,12 +68,12 @@ namespace BatallaNaval
             gridEnemigo.ColumnStyles.Clear();
             gridEnemigo.RowStyles.Clear();
 
-            gridEnemigo.RowCount = Program.Tamano;
-            gridEnemigo.ColumnCount = Program.Tamano;
+            gridEnemigo.RowCount = Program.tamano;
+            gridEnemigo.ColumnCount = Program.tamano;
 
             for (int i = 0; i < gridEnemigo.RowCount; i++)
             {
-                gridEnemigo.RowStyles.Add(new ColumnStyle(SizeType.Percent, 100f / gridEnemigo.RowCount));
+                gridEnemigo.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / gridEnemigo.RowCount));
             }
 
             for (int i = 0; i < gridEnemigo.ColumnCount; i++)
@@ -289,7 +292,8 @@ namespace BatallaNaval
                         this.Close();
                     }
                 }
-            };
+            }
+            ;
         }
 
         private void btnRotar_Click(object sender, EventArgs e)
@@ -338,6 +342,50 @@ namespace BatallaNaval
             }
             instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
 
+            //btnGuardarPartida.Visible = true;
+        }
+        private void btnGuardarPartida_click(object sender, EventArgs e)
+        {
+            var estado = new JuegoGuardado
+            {
+                CeldasJugador = celdasJuego,
+                CeldasComputadora = celdasEnemigo,
+                BarcosJugador = barcos,
+                BarcosComputadora = barcosEnemigo,
+                CeldasAtacadasJugadorIds = celdasAtacadasJugador.Select(c => c.Id).ToList(),
+                CeldasAtacadasComputadoraIds = celdasAtacadasEnemigo.Select(c => c.Id).ToList(),
+                TurnoComputadora = Computadora.computadoraJugando,
+                ProximaDireccion = Computadora.GetProximaDireccion()
+            };
+
+            GestorPartida.GuardarPartida(estado);
+            MessageBox.Show("Partida guardada con �xito.");
+        }
+        public static void btnCargarPartida_Click(object sender, EventArgs e)
+        {
+            var partida = GestorPartida.CargarPartida();
+
+            if (partida == null)
+            {
+                MessageBox.Show("No se encontr� una partida guardada.");
+                return;
+            }
+
+            ResetGameState();
+
+            celdasJuego = partida.CeldasJugador;
+            celdasEnemigo = partida.CeldasComputadora;
+            barcos = partida.BarcosJugador;
+            barcosEnemigo = partida.BarcosComputadora;
+
+            celdasAtacadasJugador = celdasJuego.Where(c => partida.CeldasAtacadasJugadorIds.Contains(c.Id)).ToList();
+            celdasAtacadasEnemigo = celdasEnemigo.Where(c => partida.CeldasAtacadasComputadoraIds.Contains(c.Id)).ToList();
+
+            Computadora.computadoraJugando = partida.TurnoComputadora;
+            Computadora.SetProximaDireccion(partida.ProximaDireccion);
+
+            JuegoEmpezado = true;
+            //MessageBox.Show("Partida cargada.");
         }
 
         private void clickSeleccionCelda(object sender, EventArgs e, Celda celda, Panel p, List<Barco> barcos)
@@ -349,7 +397,8 @@ namespace BatallaNaval
                 {
                     MessageBox.Show("No hay lugar");
                     return;
-                };
+                }
+                ;
 
                 Barcos.PosicionarBarco(lugar.direccion, celda, this, p);
 

@@ -401,5 +401,7 @@ namespace BatallaNaval.Controladores
             ultimoBarcoAtacado = null;
             proximaDireccionBuscar = "";
         }
+        public static string GetProximaDireccion() => proximaDireccionBuscar;
+        public static void SetProximaDireccion(string dir) => proximaDireccionBuscar = dir;
     }
 }
