@@ -9,7 +9,5 @@ namespace BatallaNaval.Modelos
     internal class Grid
     {
         public static List<List<Celda>> matrizCeldas { get; set; }
-
-
     }
 }

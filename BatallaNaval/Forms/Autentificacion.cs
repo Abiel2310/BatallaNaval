@@ -11,6 +11,8 @@ namespace BatallaNaval.Forms
         public Autenticacion()
         {
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             InitializeComponent();
             InicializarDoubleBuffering();
             CrearInterfaz();
@@ -80,18 +82,17 @@ namespace BatallaNaval.Forms
 
         private void MostrarFormularioLogin()
         {
-            LoginForm l = new LoginForm();
-            this.Hide();
 
-            l.Show();
-            l.FormClosed += (s, args) => {
-                var i = new Inicio();
-                i.Show();
-                i.FormClosed += (s, args) =>
+            using (var loginForm = new LoginForm())
+            {
+                if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    this.Close();
-                };
-            };
+                    this.Hide();
+                    Inicio inicioForm = new Inicio();
+                    inicioForm.Show();
+                    inicioForm.FormClosed += (s, args) => this.Close();
+                }
+            }
         }
 
         private void MostrarFormularioRegistro()
@@ -101,7 +102,9 @@ namespace BatallaNaval.Forms
                 if (registerForm.ShowDialog() == DialogResult.OK)
                 {
                     this.Hide();
-                    new Inicio().Show();
+                    Inicio inicioForm = new Inicio();
+                    inicioForm.Show();
+                    inicioForm.FormClosed += (s, args) => this.Close();
                 }
             }
         }

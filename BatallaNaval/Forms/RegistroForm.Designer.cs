@@ -16,36 +16,47 @@
 
         private void InitializeComponent()
         {
-            this.txtUsuario = new TextBox();
-            this.txtContrasena = new TextBox();
-            this.btnRegistro = new Button();
-
-            this.SuspendLayout();
-
+            txtUsuario = new TextBox();
+            txtContrasena = new TextBox();
+            btnRegistro = new Button();
+            SuspendLayout();
+            // 
             // txtUsuario
+            // 
+            txtUsuario.Location = new Point(50, 30);
+            txtUsuario.Name = "txtUsuario";
             txtUsuario.PlaceholderText = "Nuevo Usuario";
-            txtUsuario.Location = new System.Drawing.Point(50, 30);
-            txtUsuario.Width = 200;
-
+            txtUsuario.Size = new Size(200, 27);
+            txtUsuario.TabIndex = 0;
+            // 
             // txtContrasena
-            txtContrasena.PlaceholderText = "Contraseña";
-            txtContrasena.Location = new System.Drawing.Point(50, 70);
-            txtContrasena.Width = 200;
+            // 
+            txtContrasena.Location = new Point(50, 70);
+            txtContrasena.Name = "txtContrasena";
             txtContrasena.PasswordChar = '*';
-
+            txtContrasena.PlaceholderText = "Contraseña";
+            txtContrasena.Size = new Size(200, 27);
+            txtContrasena.TabIndex = 1;
+            // 
             // btnRegistro
+            // 
+            btnRegistro.Location = new Point(50, 110);
+            btnRegistro.Name = "btnRegistro";
+            btnRegistro.Size = new Size(200, 35);
+            btnRegistro.TabIndex = 2;
             btnRegistro.Text = "Registrarse";
-            btnRegistro.Location = new System.Drawing.Point(50, 110);
-            btnRegistro.Click += new System.EventHandler(this.btnRegistro_Click);
-
+            btnRegistro.Click += btnRegistro_Click;
+            // 
             // RegistroForm
-            this.ClientSize = new System.Drawing.Size(300, 180);
-            this.Controls.Add(txtUsuario);
-            this.Controls.Add(txtContrasena);
-            this.Controls.Add(btnRegistro);
-            this.Text = "Registrarse";
-
-            this.ResumeLayout(false);
+            // 
+            ClientSize = new Size(301, 256);
+            Controls.Add(txtUsuario);
+            Controls.Add(txtContrasena);
+            Controls.Add(btnRegistro);
+            Name = "RegistroForm";
+            Text = "Registrarse";
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

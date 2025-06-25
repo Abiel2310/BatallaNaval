@@ -16,36 +16,47 @@
 
         private void InitializeComponent()
         {
-            this.txtUsuario = new TextBox();
-            this.txtContrasena = new TextBox();
-            this.btnLogin = new Button();
-
-            this.SuspendLayout();
-
+            txtUsuario = new TextBox();
+            txtContrasena = new TextBox();
+            btnLogin = new Button();
+            SuspendLayout();
+            // 
             // txtUsuario
+            // 
+            txtUsuario.Location = new Point(61, 37);
+            txtUsuario.Name = "txtUsuario";
             txtUsuario.PlaceholderText = "Usuario";
-            txtUsuario.Location = new System.Drawing.Point(50, 30);
-            txtUsuario.Width = 200;
-
+            txtUsuario.Size = new Size(200, 27);
+            txtUsuario.TabIndex = 0;
+            // 
             // txtContrasena
-            txtContrasena.PlaceholderText = "Contraseña";
-            txtContrasena.Location = new System.Drawing.Point(50, 70);
-            txtContrasena.Width = 200;
+            // 
+            txtContrasena.Location = new Point(61, 79);
+            txtContrasena.Name = "txtContrasena";
             txtContrasena.PasswordChar = '*';
-
+            txtContrasena.PlaceholderText = "Contraseña";
+            txtContrasena.Size = new Size(200, 27);
+            txtContrasena.TabIndex = 1;
+            // 
             // btnLogin
+            // 
+            btnLogin.Location = new Point(61, 123);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(200, 33);
+            btnLogin.TabIndex = 2;
             btnLogin.Text = "Iniciar Sesión";
-            btnLogin.Location = new System.Drawing.Point(50, 110);
-            btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-
+            btnLogin.Click += btnLogin_Click;
+            // 
             // LoginForm
-            this.ClientSize = new System.Drawing.Size(300, 180);
-            this.Controls.Add(txtUsuario);
-            this.Controls.Add(txtContrasena);
-            this.Controls.Add(btnLogin);
-            this.Text = "Iniciar Sesión";
-
-            this.ResumeLayout(false);
+            // 
+            ClientSize = new Size(332, 296);
+            Controls.Add(txtUsuario);
+            Controls.Add(txtContrasena);
+            Controls.Add(btnLogin);
+            Name = "LoginForm";
+            Text = "Iniciar Sesión";
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

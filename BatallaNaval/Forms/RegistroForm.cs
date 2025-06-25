@@ -10,6 +10,7 @@ namespace BatallaNaval.Forms
     {
         public RegistroForm()
         {
+            this.StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
         }
 

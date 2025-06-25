@@ -37,6 +37,7 @@
             textoInstruccion = new Label();
             scMain = new SplitContainer();
             gridJuego = new TableLayoutPanel();
+            btnGuardarPartida = new Button();
             empezarJuegoBtn = new Button();
             barcoChiquitito = new PictureBox();
             barcoGrande = new PictureBox();
@@ -162,6 +163,7 @@
             // scMain.Panel2
             // 
             scMain.Panel2.BackColor = SystemColors.GradientActiveCaption;
+            scMain.Panel2.Controls.Add(btnGuardarPartida);
             scMain.Panel2.Controls.Add(empezarJuegoBtn);
             scMain.Panel2.Controls.Add(barcoChiquitito);
             scMain.Panel2.Controls.Add(barcoGrande);
@@ -205,6 +207,20 @@
             gridJuego.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             gridJuego.Size = new Size(521, 519);
             gridJuego.TabIndex = 0;
+            // 
+            // btnGuardarPartida
+            // 
+            btnGuardarPartida.Anchor = AnchorStyles.None;
+            btnGuardarPartida.BackColor = Color.Black;
+            btnGuardarPartida.ForeColor = SystemColors.Control;
+            btnGuardarPartida.Location = new Point(48, 277);
+            btnGuardarPartida.Name = "btnGuardarPartida";
+            btnGuardarPartida.Size = new Size(223, 52);
+            btnGuardarPartida.TabIndex = 9;
+            btnGuardarPartida.Text = "Guardar partida\r\n";
+            btnGuardarPartida.UseVisualStyleBackColor = false;
+            btnGuardarPartida.Visible = false;
+            btnGuardarPartida.Click += btnGuardarPartida_Click_1;
             // 
             // empezarJuegoBtn
             // 
@@ -317,11 +333,11 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = SystemColors.GradientActiveCaption;
-            label1.Font = new Font("Old English Text MT", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
             label1.Location = new Point(17, 9);
             label1.Name = "label1";
-            label1.Size = new Size(284, 44);
+            label1.Size = new Size(317, 41);
             label1.TabIndex = 2;
             label1.Text = "Naves de contrincante";
             label1.UseCompatibleTextRendering = true;
@@ -376,5 +392,6 @@
         private Button btnRotar;
         private Panel panel1;
         private Button empezarJuegoBtn;
+        private Button btnGuardarPartida;
     }
 }

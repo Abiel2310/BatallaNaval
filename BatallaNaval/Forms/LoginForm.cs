@@ -9,6 +9,8 @@ namespace BatallaNaval.Forms
     {
         public LoginForm()
         {
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             InitializeComponent();
         }
 
@@ -34,7 +36,7 @@ namespace BatallaNaval.Forms
             Program.loggedIn = true;
             Program.usuarioActual = u;
 
-            //this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }
