@@ -26,8 +26,6 @@ namespace BatallaNaval
 
         private List<PictureBox> barcosEnTablero = [];
 
-        Button btnGuardarPartida;
-
 
         public Main()
         {
@@ -341,24 +339,7 @@ namespace BatallaNaval
             }
             instruccionesLabel.Text = "Haga click en una celda del panel a la derecha";
 
-            //btnGuardarPartida.Visible = true;
-        }
-        private void btnGuardarPartida_click(object sender, EventArgs e)
-        {
-            var estado = new JuegoGuardado
-            {
-                CeldasJugador = celdasJuego,
-                CeldasComputadora = celdasEnemigo,
-                BarcosJugador = barcos,
-                BarcosComputadora = barcosEnemigo,
-                CeldasAtacadasJugadorIds = celdasAtacadasJugador.Select(c => c.Id).ToList(),
-                CeldasAtacadasComputadoraIds = celdasAtacadasEnemigo.Select(c => c.Id).ToList(),
-                TurnoComputadora = Computadora.computadoraJugando,
-                ProximaDireccion = Computadora.GetProximaDireccion()
-            };
-
-            GestorPartida.GuardarPartida(estado);
-            MessageBox.Show("Partida guardada con éxito.");
+            btnGuardarPartida.Visible = true;
         }
         public static void btnCargarPartida_Click(object sender, EventArgs e)
         {
@@ -437,6 +418,22 @@ namespace BatallaNaval
             ResetGameState();
         }
 
+        private void btnGuardarPartida_Click_1(object sender, EventArgs e)
+        {
+            var estado = new JuegoGuardado
+            {
+                CeldasJugador = celdasJuego,
+                CeldasComputadora = celdasEnemigo,
+                BarcosJugador = barcos,
+                BarcosComputadora = barcosEnemigo,
+                CeldasAtacadasJugadorIds = celdasAtacadasJugador.Select(c => c.Id).ToList(),
+                CeldasAtacadasComputadoraIds = celdasAtacadasEnemigo.Select(c => c.Id).ToList(),
+                TurnoComputadora = Computadora.computadoraJugando,
+                ProximaDireccion = Computadora.GetProximaDireccion()
+            };
 
+            GestorPartida.GuardarPartida(estado);
+            MessageBox.Show("Partida guardada con éxito.");
+        }
     }
 }
