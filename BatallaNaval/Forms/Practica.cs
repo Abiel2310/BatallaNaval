@@ -28,6 +28,8 @@ namespace BatallaNaval.Forms
         private void InicializarPractica()
         {
             gridPractica.Controls.Clear();
+            gridPractica.RowStyles.Clear();
+            gridPractica.ColumnStyles.Clear();
             celdasPractica.Clear();
             panelesPractica.Clear();
             barcosEnemigoPractica.Clear();
@@ -87,6 +89,17 @@ namespace BatallaNaval.Forms
 
             barcosEnemigoPractica = [portaAviones, BarcoGrande, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
 
+            int tamano = Program.tamano;
+            gridPractica.RowCount = tamano;
+            gridPractica.ColumnCount = tamano;
+
+            //Asignar estilos proporcionales
+            for (int i = 0; i < tamano; i++)
+            {
+                gridPractica.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / tamano));
+                gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / tamano));
+            }
+            // Crear celdas y paneles para el grid de práctica
             int contador = 1;
             for (int i = 0; i < gridPractica.RowCount; i++)
             {
@@ -198,7 +211,7 @@ namespace BatallaNaval.Forms
                     if (barcoAtacado != null && barcoAtacado.CeldasPosicion.All(c => c.Atacada))
                     {
                         barcoAtacado.Hundido = true;
-                        MessageBox.Show($"¡Hundiste el/la {barcoAtacado.NombreBarco}!");
+                        MessageBox.Show($"HUNDIO EL BARCO: {barcoAtacado.NombreBarco}!!");
                     }
                 }
                 else

@@ -263,6 +263,7 @@ namespace BatallaNaval
                     if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
                     {
                         seleccion.barcoAtacado.Hundido = true;
+                        MessageBox.Show($"HUNDIO EL BARCO: {seleccion.barcoAtacado.NombreBarco}!!");
                     }
                 }
                 else
