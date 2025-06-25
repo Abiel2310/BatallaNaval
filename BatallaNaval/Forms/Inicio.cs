@@ -143,6 +143,7 @@ namespace BatallaNaval.Forms
             textBox.Name = "inputTamano";
             panelInicio.Controls.Add(textBox);
 
+            // Crear botón para guardar el número ingresado
             Button btnGuardarNumero = new ()
             {
                 Text = "Guardar Número",
@@ -156,6 +157,25 @@ namespace BatallaNaval.Forms
             btnGuardarNumero.Location = new Point(((this.Width / 2) - (btnGuardarNumero.Width / 2)), ((this.Height / 2) - (btnGuardarNumero.Height / 2) - 50));
             btnGuardarNumero.Click += btnGuardarNumero_Click;
             panelInicio.Controls.Add(btnGuardarNumero);
+
+            //Crear el boton para volver a la pantalla de inicio
+            Button btnVolverInicio = new()
+            {
+                Text = "Volver al Inicio",
+                Font = new Font("Segoe UI Semibold", 9),
+                Width = 200,
+                Height = 40,
+                Anchor = AnchorStyles.Top,
+                BackColor = Color.Black,
+                ForeColor = Color.White
+            };
+            btnVolverInicio.Location = new Point(50,50);
+            btnVolverInicio.Click += (s, args) =>
+            {
+                panelInicio.Controls.Clear();
+                PantallaInicio();
+            };
+            panelInicio.Controls.Add(btnVolverInicio);
         }
         private void ConfiguracionPractica(object sender, EventArgs e)
         {
@@ -165,6 +185,7 @@ namespace BatallaNaval.Forms
             textBox.Name = "inputTamano";
             panelInicio.Controls.Add(textBox);
 
+            // Crear botón para guardar el número ingresado
             Button btnGuardarNumero = new()
             {
                 Text = "Guardar Número",
@@ -178,6 +199,25 @@ namespace BatallaNaval.Forms
             btnGuardarNumero.Location = new Point(((this.Width / 2) - (btnGuardarNumero.Width / 2)), ((this.Height / 2) - (btnGuardarNumero.Height / 2) - 50));
             btnGuardarNumero.Click += btnGuardarNumero_ClickPractica;
             panelInicio.Controls.Add(btnGuardarNumero);
+
+            //Crear el boton para volver a la pantalla de inicio
+            Button btnVolverInicio = new()
+            {
+                Text = "Volver al Inicio",
+                Font = new Font("Segoe UI Semibold", 9),
+                Width = 200,
+                Height = 40,
+                Anchor = AnchorStyles.Top,
+                BackColor = Color.Black,
+                ForeColor = Color.White
+            };
+            btnVolverInicio.Location = new Point(50,50);
+            btnVolverInicio.Click += (s, args) =>
+            {
+                panelInicio.Controls.Clear();
+                PantallaInicio();
+            };
+            panelInicio.Controls.Add(btnVolverInicio);
         }
         private void btnGuardarNumero_Click(object sender, EventArgs e)
         {

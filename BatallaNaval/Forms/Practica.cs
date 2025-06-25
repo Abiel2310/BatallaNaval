@@ -99,6 +99,7 @@ namespace BatallaNaval.Forms
                 gridPractica.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / tamano));
                 gridPractica.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / tamano));
             }
+            // Crear celdas y paneles para el grid de práctica
             int contador = 1;
             for (int i = 0; i < gridPractica.RowCount; i++)
             {
