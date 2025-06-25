@@ -198,7 +198,7 @@ namespace BatallaNaval.Forms
                     if (barcoAtacado != null && barcoAtacado.CeldasPosicion.All(c => c.Atacada))
                     {
                         barcoAtacado.Hundido = true;
-                        MessageBox.Show($"¡Hundiste el/la {barcoAtacado.NombreBarco}!");
+                        MessageBox.Show($"HUNDIO EL BARCO: {barcoAtacado.NombreBarco}!!");
                     }
                 }
                 else
