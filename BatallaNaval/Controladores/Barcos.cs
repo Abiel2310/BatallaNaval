@@ -28,7 +28,8 @@ namespace BatallaNaval.Controladores
             int indiceCeldaInicio = Main.celdasJuego.IndexOf(celdaInicio);
             Panel p = (Panel)Main.celdasPosicion[Main.celdasJuego.IndexOf(celdaInicio)];
 
-            // resetear las celdas
+            // resetear las celdas anteriores y guardarlas tambien
+            List<Celda> celdasAnteriores = barcoSeleccionado.CeldasPosicion;
             foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
             {
                 cld.ContieneBarco = false;
@@ -36,9 +37,11 @@ namespace BatallaNaval.Controladores
             }
 
             var posicion = EncontrarPosicion(celdaInicio, cantidadCeldas, barcoSeleccionado.Direccion);
-
+            
             if (posicion.direccion == null)
             {
+                // por las dudas si no se encuentra posicion, tambien hay que dejarlas como estaban antes ya que fueron resetadas
+                barcoSeleccionado.CeldasPosicion = celdasAnteriores;
                 MessageBox.Show("No se puede rotar");
                 return;
             }
@@ -48,6 +51,11 @@ namespace BatallaNaval.Controladores
             barcoSeleccionado.Columna = celdaInicio.Columna;
             barcoSeleccionado.Direccion = posicion.direccion;
 
+            foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
+            {
+                cld.ContieneBarco = true;
+                cld.BarcoId = barcoSeleccionado.Id;
+            }
 
 
             foreach (Celda cld in barcoSeleccionado.CeldasPosicion)
@@ -341,7 +349,7 @@ namespace BatallaNaval.Controladores
 
                         // conseguir el punto mas arriba??
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (10 * num)];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - (Program.Tamano * num)];
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
@@ -388,7 +396,7 @@ namespace BatallaNaval.Controladores
                         barcoImg.Height = p.Height * barcoSeleccionado.CantidadCeldas;
 
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) + (Program.Tamano * num)];
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);
@@ -409,12 +417,7 @@ namespace BatallaNaval.Controladores
                         barcoImg.Width = p.Width * barcoSeleccionado.CantidadCeldas;
 
                         int num = barcoSeleccionado.CantidadCeldas - 1;
-                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio)];
-
-                        if (Main.celdasJuego.IndexOf(celdaInicio) - num >= 0)
-                        {
-                            c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) - num];
-                        }
+                        Celda c = Main.celdasJuego[Main.celdasJuego.IndexOf(celdaInicio) + num];
                         Control p1 = Main.celdasPosicion[Main.celdasJuego.IndexOf(c)];
 
                         Point posIzq = p1.PointToScreen(Point.Empty);

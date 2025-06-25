@@ -29,6 +29,7 @@ namespace BatallaNaval
         public Main()
         {
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             // para que se carguen los componentes bien, hacemos un doble buffer. Se crea un buffer que el usuario no ve, 
             // se dibujan todos los graficos ahi, y despues se copia a la pantalla. De esta forma todo carga instantaneamente
@@ -42,7 +43,40 @@ namespace BatallaNaval
         private void InicializarComponentes()
         {
             gridJuego.Controls.Clear();
+
+            gridJuego.ColumnStyles.Clear();
+            gridJuego.RowStyles.Clear();
+
+            gridJuego.RowCount = Program.Tamano;
+            gridJuego.ColumnCount = Program.Tamano;
+
+            for (int i = 0; i < gridJuego.RowCount; i++)
+            {
+                gridJuego.RowStyles.Add(new ColumnStyle(SizeType.Percent, 100f / gridJuego.RowCount));
+            }
+
+            for (int i = 0; i < gridJuego.ColumnCount; i++)
+            {
+                gridJuego.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / gridJuego.ColumnCount));
+            }
+
             gridEnemigo.Controls.Clear();
+
+            gridEnemigo.ColumnStyles.Clear();
+            gridEnemigo.RowStyles.Clear();
+
+            gridEnemigo.RowCount = Program.Tamano;
+            gridEnemigo.ColumnCount = Program.Tamano;
+
+            for (int i = 0; i < gridEnemigo.RowCount; i++)
+            {
+                gridEnemigo.RowStyles.Add(new ColumnStyle(SizeType.Percent, 100f / gridEnemigo.RowCount));
+            }
+
+            for (int i = 0; i < gridEnemigo.ColumnCount; i++)
+            {
+                gridEnemigo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / gridEnemigo.ColumnCount));
+            }
 
             this.KeyDown += (s, e) =>
             {
