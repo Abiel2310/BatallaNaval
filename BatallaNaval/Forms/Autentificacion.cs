@@ -41,7 +41,7 @@ namespace BatallaNaval.Forms
             {
                 Text = "Bienvenido a Batalla Naval",
                 Font = new Font("Old English Text MT", 28),
-                ForeColor = Color.White,
+                ForeColor = Color.Black,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Width = 600,
                 Height = 50,

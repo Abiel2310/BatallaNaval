@@ -366,7 +366,8 @@ namespace BatallaNaval
             Computadora.SetProximaDireccion(partida.ProximaDireccion);
 
             JuegoEmpezado = true;
-            //MessageBox.Show("Partida cargada.");
+            //MessageBox.Show("Partida cargada.")
+
         }
 
         private void clickSeleccionCelda(object sender, EventArgs e, Celda celda, Panel p, List<Barco> barcos)
@@ -433,6 +434,7 @@ namespace BatallaNaval
                 ProximaDireccion = Computadora.GetProximaDireccion()
             };
 
+            GestorPartida.BorrarPartida();
             GestorPartida.GuardarPartida(estado);
             MessageBox.Show("Partida guardada con éxito.");
         }

@@ -47,7 +47,7 @@ namespace BatallaNaval.PersistenciaC
             }
             for (int i = 0; i < estado.BarcosJugador.Count; i++)
             {
-                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId)");
+                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId, jugador) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId, @jugador)");
                 cmd.Connection = Conexion.Connection;
                 cmd.Parameters.Add(new SQLiteParameter("@id", estado.BarcosJugador[i].Id));
                 cmd.Parameters.Add(new SQLiteParameter("@cantidadCeldas", estado.BarcosJugador[i].CantidadCeldas));
@@ -56,12 +56,16 @@ namespace BatallaNaval.PersistenciaC
                 cmd.Parameters.Add(new SQLiteParameter("@columna", estado.BarcosJugador[i].Columna));
                 cmd.Parameters.Add(new SQLiteParameter("@hundido", estado.BarcosJugador[i].Hundido));
                 cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@jugador", true));
 
                 cmd.ExecuteNonQuery();
             }
             for (int i = 0; i < estado.BarcosComputadora.Count; i++)
             {
-                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId)");
+               
+                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId, jugador) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId, @jugador)");
+
                 cmd.Connection = Conexion.Connection;
                 cmd.Parameters.Add(new SQLiteParameter("@id", estado.BarcosComputadora[i].Id));
                 cmd.Parameters.Add(new SQLiteParameter("@cantidadCeldas", estado.BarcosComputadora[i].CantidadCeldas));
@@ -70,6 +74,7 @@ namespace BatallaNaval.PersistenciaC
                 cmd.Parameters.Add(new SQLiteParameter("@columna", estado.BarcosComputadora[i].Columna));
                 cmd.Parameters.Add(new SQLiteParameter("@hundido", estado.BarcosComputadora[i].Hundido));
                 cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@jugador", false));
 
                 cmd.ExecuteNonQuery();
             }
@@ -127,7 +132,7 @@ namespace BatallaNaval.PersistenciaC
                 barcos.Columna = dr2.GetInt32(4);
                 barcos.Hundido = Convert.ToBoolean(dr2.GetInt32(5));
 
-                if (dr.GetString(7) == "true")
+                if (Convert.ToBoolean(dr2.GetInt32(7)))
                 {
                     barcosJ.Add(barcos);
                 }
