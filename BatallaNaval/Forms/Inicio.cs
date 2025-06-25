@@ -111,32 +111,17 @@ namespace BatallaNaval.Forms
             cargarPartidaButton.Top = btnJuegoPC.Bottom + 10;
             cargarPartidaButton.Click += (s, args) =>
             {
-                var partida = GestorPartida.CargarPartida();
+                
 
-                if (partida == null)
+                this.Hide();
+                Main mainForm = new Main(true);
+                mainForm.FormClosed += (sender, args) =>
                 {
-                    MessageBox.Show("No se encontro una partida guardada.");
-                    return;
-                }
+                    this.Show();
+                };
+                mainForm.Show();
 
-                var main = new Main();
-                main.Show();
-                Program.tamano = 10;
-
-                Main.ResetGameState();
-
-                Main.celdasJuego = partida.CeldasJugador;
-                Main.celdasEnemigo = partida.CeldasComputadora;
-                Main.barcos = partida.BarcosJugador;
-                Main.barcosEnemigo = partida.BarcosComputadora;
-
-                Main.celdasAtacadasJugador = Main.celdasJuego.Where(c => partida.CeldasAtacadasJugadorIds.Contains(c.Id)).ToList();
-                Main.celdasAtacadasEnemigo = Main.celdasEnemigo.Where(c => partida.CeldasAtacadasComputadoraIds.Contains(c.Id)).ToList();
-
-                Computadora.computadoraJugando = partida.TurnoComputadora;
-                Computadora.SetProximaDireccion(partida.ProximaDireccion);
-
-                Main.JuegoEmpezado = true;
+                
             };
 
             panelInicio.Controls.Add(header);
@@ -317,7 +302,7 @@ namespace BatallaNaval.Forms
                     {
                         Program.tamano = valor;
                         this.Hide();
-                        Main mainForm = new Main();
+                        Main mainForm = new Main(false);
                         mainForm.FormClosed += (sender, args) =>
                         {
                             config.Close();
@@ -342,7 +327,7 @@ namespace BatallaNaval.Forms
 
         private void IniciarJuego_Anterior() { 
             this.Hide();
-            Main mainForm = new Main();
+            Main mainForm = new Main(false);
 
             mainForm.FormClosed += (sender, args) => this.Show();
             mainForm.Show();

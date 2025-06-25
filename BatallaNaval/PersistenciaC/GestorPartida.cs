@@ -98,15 +98,14 @@ namespace BatallaNaval.PersistenciaC
             cmd2.Connection = Conexion.Connection;
             cmd2.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
 
-            Celda celdas = new();
-            Barco barcos = new();
 
 
             SQLiteDataReader dr = cmd.ExecuteReader();
             SQLiteDataReader dr2 = cmd2.ExecuteReader();
 
-            while (dr.Read()) 
+            while (dr.Read())
             {
+                Celda celdas = new();
                 celdas.Id = dr.GetInt32(0);
                 celdas.ContieneBarco = Convert.ToBoolean(dr.GetInt32(1));
                 celdas.BarcoId = dr.GetInt32(2);
@@ -125,6 +124,7 @@ namespace BatallaNaval.PersistenciaC
             }
             while (dr2.Read())
             {
+                Barco barcos = new();
                 barcos.Id = dr2.GetInt32(0);
                 barcos.CantidadCeldas = dr2.GetInt32(1);
                 barcos.NombreBarco = dr2.GetString(2);

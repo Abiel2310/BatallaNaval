@@ -93,14 +93,9 @@ namespace BatallaNaval.Controladores
             else
             {
                 CrearImagenAgua(form, seleccionComputadora.panelCelda);
-
-                if (ultimoBarcoAtacado?.Hundido != true)
-                {
-                    ultimaAtacada = null;
-                    ultimoBarcoAtacado = null;
-                    proximaDireccionBuscar = "derecha";
-                }
             }
+
+            //seleccionComputadora.celdaElegida.Atacada = true;
 
             // fijarse si se hundio el barco completo
             if (seleccion.barcoAtacado != null && seleccion.barcoAtacado.CeldasPosicion.All(c => c.Atacada))
@@ -406,7 +401,9 @@ namespace BatallaNaval.Controladores
             ultimoBarcoAtacado = null;
             proximaDireccionBuscar = "";
         }
+
         public static string GetProximaDireccion() => proximaDireccionBuscar;
+
         public static void SetProximaDireccion(string dir) => proximaDireccionBuscar = dir;
     }
 }

@@ -26,8 +26,10 @@ namespace BatallaNaval
 
         private List<PictureBox> barcosEnTablero = [];
 
+        static bool Cargar = false;
 
-        public Main()
+
+        public Main(bool cargar)
         {
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -35,11 +37,43 @@ namespace BatallaNaval
             // para que se carguen los componentes bien, hacemos un doble buffer. Se crea un buffer que el usuario no ve, 
             // se dibujan todos los graficos ahi, y despues se copia a la pantalla. De esta forma todo carga instantaneamente
             InitializeComponent();
+
+            Cargar = cargar;
+
+            if (cargar)
+            {
+                var partida = GestorPartida.CargarPartida();
+
+                if (partida == null)
+                {
+                    MessageBox.Show("No se encontro una partida guardada.");
+                    this.Close();
+                }
+                Program.tamano = 10;
+
+                ResetGameState();
+
+                celdasJuego = partida.CeldasJugador;
+                celdasEnemigo = partida.CeldasComputadora;
+                barcos = partida.BarcosJugador;
+                barcosEnemigo = partida.BarcosComputadora;
+
+                celdasAtacadasJugador = celdasJuego.Where(c => partida.CeldasAtacadasJugadorIds.Contains(c.Id)).ToList();
+                celdasAtacadasEnemigo = celdasEnemigo.Where(c => partida.CeldasAtacadasComputadoraIds.Contains(c.Id)).ToList();
+
+                Computadora.computadoraJugando = partida.TurnoComputadora;
+                Computadora.SetProximaDireccion(partida.ProximaDireccion);
+
+                JuegoEmpezado = true;
+            }
+
+
             InicializarDoubleBuffering();
             InicializarComponentes();
 
             this.KeyPreview = true;
-        }
+
+            }
 
         private void InicializarComponentes()
         {
@@ -145,7 +179,7 @@ namespace BatallaNaval
                 Hundido = false
             };
 
-            barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
+            if (!Cargar) barcos = [PortaAviones, BarcoGrando, BarcoUnPocoMasChico, BarcoChico, BarcoChiquito];
             barcosEnTablero = [portaAviones, barcoGrande, barcoUnPocoMasChico, barcoChico, barcoChiquitito];
 
             int contador = 1;
@@ -171,7 +205,8 @@ namespace BatallaNaval
                         Fila = i,
                         Columna = j
                     };
-                    celdasJuego.Add(celda);
+                    // si no es una partida cargada agregar la celda
+                    if (!Cargar) celdasJuego.Add(celda);
 
                     Panel p = new()
                     {
@@ -180,6 +215,7 @@ namespace BatallaNaval
                         Margin = new Padding(0),
                     };
 
+                    
                     celdasPosicion.Add(p);
 
                     p.Click += (s, args) => clickSeleccionCelda(s, args, celda, p, barcos);
@@ -203,7 +239,9 @@ namespace BatallaNaval
                         Fila = i,
                         Columna = j
                     };
-                    celdasEnemigo.Add(celda);
+                    if (!Cargar) celdasEnemigo.Add(celda);
+
+
 
                     Panel p = new()
                     {
@@ -211,6 +249,14 @@ namespace BatallaNaval
                         Tag = celda.Id,
                         Margin = new Padding(0),
                     };
+
+                    if (Cargar)
+                    {
+                        Celda celdaRef = celdasEnemigo.First(c => c.Fila == i && c.Columna == j);
+                        Color color = celdaRef.Atacada ? Color.Red : Color.White;
+                        p.ForeColor = color;
+                    }
+
                     panelesEnemigo.Add(p);
 
                     p.Click += (s, args) => ClickCeldaEnemigo(s, args, celda, p, barcosEnTablero);
