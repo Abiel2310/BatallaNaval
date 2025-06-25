@@ -178,11 +178,25 @@ namespace BatallaNaval.Controladores
                 var buscarPosicion = lista[nextIndex];
                 var resultadoPosicion = buscarPosicion(celda, cantidadCeldas, dirOmitir, listaCeldas);
 
-                if (estaRotando && !turnoPc && resultadoPosicion.Item2 != null)
+                //if (estaRotando && !turnoPc && resultadoPosicion.Item2 != null)
+                //{
+                //    // rotar imagen
+                //    barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                //    barcoImg.Refresh();
+                //}
+
+                if (estaRotando && !turnoPc)
                 {
+                    if (resultadoPosicion.Item2 == null && i == 3)
+                    {
+
+                    }
+                    else
+                    {
+                        barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        barcoImg.Refresh();
+                    }
                     // rotar imagen
-                    barcoImg.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    barcoImg.Refresh();
                 }
 
                 if (resultadoPosicion.Item2 != null)

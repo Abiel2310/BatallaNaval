@@ -163,7 +163,11 @@ namespace BatallaNaval.Forms
                         Program.Tamano = valor;
                         this.Hide();
                         Main mainForm = new Main();
-                        mainForm.FormClosed += (sender, args) => this.Show();
+                        mainForm.FormClosed += (sender, args) =>
+                        {
+                            config.Close();
+                            this.Show();
+                        };
                         mainForm.Show();
                     }
                     else
