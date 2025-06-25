@@ -26,7 +26,7 @@ namespace BatallaNaval.PersistenciaC
                 cmd.Parameters.Add(new SQLiteParameter("@fila", estado.CeldasJugador[i].Fila));
                 cmd.Parameters.Add(new SQLiteParameter("@columna", estado.CeldasJugador[i].Columna));
                 cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@jugador", "true"));
+                cmd.Parameters.Add(new SQLiteParameter("@jugador", true));
 
                 cmd.ExecuteNonQuery();
             }
@@ -41,35 +41,37 @@ namespace BatallaNaval.PersistenciaC
                 cmd.Parameters.Add(new SQLiteParameter("@fila", estado.CeldasComputadora[i].Fila));
                 cmd.Parameters.Add(new SQLiteParameter("@columna", estado.CeldasComputadora[i].Columna));
                 cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
-                cmd.Parameters.Add(new SQLiteParameter("@jugador", "false"));
+                cmd.Parameters.Add(new SQLiteParameter("@jugador", false));
 
                 cmd.ExecuteNonQuery();
             }
             for (int i = 0; i < estado.BarcosJugador.Count; i++)
             {
-                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId)");
+                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId, jugador) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId, @jugador)");
                 cmd.Connection = Conexion.Connection;
                 cmd.Parameters.Add(new SQLiteParameter("@id", estado.BarcosJugador[i].Id));
                 cmd.Parameters.Add(new SQLiteParameter("@cantidadCeldas", estado.BarcosJugador[i].CantidadCeldas));
                 cmd.Parameters.Add(new SQLiteParameter("@nombre", estado.BarcosJugador[i].NombreBarco));
                 cmd.Parameters.Add(new SQLiteParameter("@fila", estado.BarcosJugador[i].Fila));
                 cmd.Parameters.Add(new SQLiteParameter("@columna", estado.BarcosJugador[i].Columna));
-                cmd.Parameters.Add(new SQLiteParameter("@hundido", "false"));
+                cmd.Parameters.Add(new SQLiteParameter("@hundido", estado.BarcosJugador[i].Hundido));
                 cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@jugador", true));
 
                 cmd.ExecuteNonQuery();
             }
             for (int i = 0; i < estado.BarcosComputadora.Count; i++)
             {
-                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId)");
+                SQLiteCommand cmd = new("INSERT INTO barco (id, cantidadCeldas, nombre, fila, columna, hundido, userId, jugador) VALUES (@id, @cantidadCeldas, @nombre, @fila, @columna, @hundido, @userId, @jugador)");
                 cmd.Connection = Conexion.Connection;
                 cmd.Parameters.Add(new SQLiteParameter("@id", estado.BarcosComputadora[i].Id));
                 cmd.Parameters.Add(new SQLiteParameter("@cantidadCeldas", estado.BarcosComputadora[i].CantidadCeldas));
                 cmd.Parameters.Add(new SQLiteParameter("@nombre", estado.BarcosComputadora[i].NombreBarco));
                 cmd.Parameters.Add(new SQLiteParameter("@fila", estado.BarcosComputadora[i].Fila));
                 cmd.Parameters.Add(new SQLiteParameter("@columna", estado.BarcosComputadora[i].Columna));
-                cmd.Parameters.Add(new SQLiteParameter("@hundido", "false"));
+                cmd.Parameters.Add(new SQLiteParameter("@hundido", estado.BarcosComputadora[i].Hundido));
                 cmd.Parameters.Add(new SQLiteParameter("@userId", Program.usuarioActual.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@jugador", false));
 
                 cmd.ExecuteNonQuery();
             }
@@ -95,6 +97,7 @@ namespace BatallaNaval.PersistenciaC
 
             Celda celdas = new();
             Barco barcos = new();
+            List<Celda> celdasP = new();
 
 
             SQLiteDataReader dr = cmd.ExecuteReader();
@@ -102,13 +105,13 @@ namespace BatallaNaval.PersistenciaC
             while (dr.Read()) 
             {
                 celdas.Id = dr.GetInt32(0);
-                celdas.ContieneBarco = dr.GetBoolean(1);
+                celdas.ContieneBarco = Convert.ToBoolean(dr.GetInt32(1));
                 celdas.BarcoId = dr.GetInt32(2);
-                celdas.Atacada = dr.GetBoolean(3);
+                celdas.Atacada = Convert.ToBoolean(dr.GetInt32(3));
                 celdas.Fila = dr.GetInt32(4);
                 celdas.Columna = dr.GetInt32(5);
 
-                if (dr.GetString(7) == "true")
+                if (Convert.ToBoolean(dr.GetInt32(7)))
                 {
                     celdasJ.Add(celdas);
                 }
@@ -124,9 +127,12 @@ namespace BatallaNaval.PersistenciaC
                 barcos.NombreBarco = dr2.GetString(2);
                 barcos.Fila = dr2.GetInt32(3);
                 barcos.Columna = dr2.GetInt32(4);
-                barcos.Hundido = dr2.GetBoolean(5);
+                barcos.Hundido = Convert.ToBoolean(dr2.GetInt32(5));
+                barcos.EnPosicion = true;
+                barcos.Direccion = "derecha";
+                barcos.CeldasPosicion = celdasJ.Where(c => c.ContieneBarco && c.BarcoId == barcos.Id).ToList();
 
-                if (dr.GetString(7) == "true")
+                if (Convert.ToBoolean(dr2.GetInt32(7)))
                 {
                     barcosJ.Add(barcos);
                 }
@@ -149,6 +155,11 @@ namespace BatallaNaval.PersistenciaC
                     celAtC.Add(celdasC[i].Id);
                 }
             }
+            for (int i = 0; i < barcosC.Count; i++)
+            {
+               
+            }
+
             JuegoGuardado partida = new()
             {
                 CeldasJugador = celdasJ,

@@ -344,7 +344,7 @@ namespace BatallaNaval
         }
         public static void btnCargarPartida_Click(object sender, EventArgs e)
         {
-            var partida = GestorPartida.CargarPartida();
+            JuegoGuardado partida = GestorPartida.CargarPartida();
 
             if (partida == null)
             {
